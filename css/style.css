@@ -1,1 +1,104 @@
-/* bagian css index.php */
+/* =========================================
+   1. STYLE.CSS - HALAMAN PUBLIC (INDEX)
+   ========================================= */
+:root {
+    --primary-color: #2E8B47; 
+    --white: #ffffff;
+    --text-dark: #333;
+    --text-muted: #666;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--white);
+    color: var(--text-dark);
+}
+
+a { text-decoration: none; }
+
+/* Navbar Public */
+.public-navbar {
+    background-color: var(--primary-color);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+}
+
+.public-navbar .logo { 
+    font-size: 1.5rem; 
+    font-weight: bold; 
+}
+
+
+.hero-section {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.hero-section h1 { 
+    font-size: 2.5rem; 
+    color: var(--primary-color); 
+    margin-bottom: 15px; 
+}
+
+.hero-section p { 
+    font-size: 1.1rem; 
+    color: var(--text-muted); 
+    max-width: 600px;
+    margin-bottom: 10px;
+}
+
+
+.btn-hijau {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-hijau:hover {
+    background-color: #246e38; 
+}
+
+/* Tombol Outline (di Navbar) */
+.btn-outline-white {
+    background: transparent;
+    border: 1px solid var(--white);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-outline-white:hover {
+    background-color: var(--white);
+    color: var(--primary-color);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid #eee;
+}
