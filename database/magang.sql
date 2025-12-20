@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 20 Des 2025 pada 04.43
+-- Waktu pembuatan: 20 Des 2025 pada 05.09
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -126,6 +126,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id_user`, `username`, `email`, `password`, `created_at`, `update_at`, `roles`, `foto`) VALUES
+(1, 'admin', 'admin@gmail.com', '$2a$12$CUEeTQnOwGzepLTQs/YXnOJiIfVf8hmgBVmqwU/DAdZOezaMLuRMy', '2025-12-20 04:58:12', '2025-12-20 04:58:12', 'super_admin', '');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -191,7 +198,7 @@ ALTER TABLE `unit_kerjasama`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
