@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPADEKPNP - Sistem Informasi Praktik Kerja</title>
-    
-    <link rel="stylesheet" href="css/style.css"> 
+    <title>SIPADEKPNP - MagangInAja</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <nav class="public-navbar">
-        <div class="logo">SIPADEKPNP</div>
-        <div class="menu">
-            <a href="admin/login_admin.php" class="btn-outline-white">Login Admin</a>
+    <header>
+        <div class="logo">
+            <h1>SIPADEKPNP</h1>
         </div>
-    </nav>
+        <nav>
+            <a href="admin/login_admin.php" class="btn-green">Masuk Portal Admin</a>
+        </nav>
+    </header>
+    <main>

@@ -1,0 +1,124 @@
+/* Admin Dashboard Stylesheet */
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #F9FAFB;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: #2E8B47;
+    color: #fff;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 30px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-header h3 {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 20px 0;
+    flex: 1;
+}
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 30px;
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.sidebar-menu li a:hover {
+    background-color: rgba(0,0,0,0.1);
+    color: #fff;
+    padding-left: 35px; /* Efek geser sedikit saat hover */
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px 60px;
+}
+
+.content-header {
+    margin-bottom: 50px; 
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+}
+
+.page-title {
+    font-size: 2.2rem; 
+    font-weight: 700;
+    color: #2E8B47; 
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.6; 
+    max-width: 700px; 
+}
+
+
+.simple-data-list {
+    max-width: 800px;
+    background: transparent;
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+    padding: 25px 30px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02); 
+    border: 1px solid #EAEAEA;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.data-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-color: #2E8B47; 
+}
+
+.data-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.data-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.data-desc {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.data-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2E8B47;
+    line-height: 1;
+}

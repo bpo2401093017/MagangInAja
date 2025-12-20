@@ -1,22 +1,13 @@
-<?php 
-// Memuat konfigurasi database (jika nanti butuh data)
-require_once 'config.php'; 
-
-// Memuat bagian atas halaman
-include 'templates/header.php'; 
+<?php
+require_once 'config.php';
+require_once 'templates/header.php';
 ?>
 
-<div class="hero-section">
-    <h1>Selamat Datang di SIPADEKPNP</h1>
-    <p>Sistem Informasi Praktik Kerja & Dedikasi Politeknik Negeri Padang.</p>
-    <p>Platform terintegrasi untuk pengelolaan data magang, perusahaan mitra, dan mahasiswa.</p>
+<div style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
     
-    <div style="margin-top: 20px;">
-        <a href="admin/login_admin.php" class="btn-hijau">Masuk ke Portal Admin</a>
-    </div>
+    <h2 style="font-size: 2.5rem; color: #2E8B47; margin-bottom: 10px;">SIPADEKPNP</h2>
+    <p style="color: #666; font-size: 1.1rem;">Sistem Informasi Praktik Kerja & Dedikasi</p>
+
 </div>
 
-<?php 
-// Memuat bagian bawah halaman
-include 'templates/footer.php'; 
-?>
+<?php require_once 'templates/footer.php'; ?>
