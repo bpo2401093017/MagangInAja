@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2025 at 05:54 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Waktu pembuatan: 20 Des 2025 pada 04.43
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jurusan`
+-- Struktur dari tabel `jurusan`
 --
 
 CREATE TABLE `jurusan` (
@@ -38,7 +38,7 @@ CREATE TABLE `jurusan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mahasiswa`
+-- Struktur dari tabel `mahasiswa`
 --
 
 CREATE TABLE `mahasiswa` (
@@ -62,7 +62,7 @@ CREATE TABLE `mahasiswa` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `perusahaan`
+-- Struktur dari tabel `perusahaan`
 --
 
 CREATE TABLE `perusahaan` (
@@ -82,7 +82,20 @@ CREATE TABLE `perusahaan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unit_kerjasama`
+-- Struktur dari tabel `prodi`
+--
+
+CREATE TABLE `prodi` (
+  `id_prodi` int(11) NOT NULL,
+  `id_jurusan` int(11) NOT NULL,
+  `nama_prodi` varchar(100) NOT NULL,
+  `status` enum('aktif','tidak aktif') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `unit_kerjasama`
 --
 
 CREATE TABLE `unit_kerjasama` (
@@ -98,7 +111,7 @@ CREATE TABLE `unit_kerjasama` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -117,65 +130,65 @@ CREATE TABLE `users` (
 --
 
 --
--- Indexes for table `jurusan`
+-- Indeks untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
   ADD PRIMARY KEY (`id_jurusan`);
 
 --
--- Indexes for table `mahasiswa`
+-- Indeks untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id_mahasiswa`);
 
 --
--- Indexes for table `perusahaan`
+-- Indeks untuk tabel `perusahaan`
 --
 ALTER TABLE `perusahaan`
   ADD PRIMARY KEY (`id_perusahaan`);
 
 --
--- Indexes for table `unit_kerjasama`
+-- Indeks untuk tabel `unit_kerjasama`
 --
 ALTER TABLE `unit_kerjasama`
   ADD PRIMARY KEY (`id_unitkerjasama`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `jurusan`
+-- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
   MODIFY `id_jurusan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `mahasiswa`
+-- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `perusahaan`
+-- AUTO_INCREMENT untuk tabel `perusahaan`
 --
 ALTER TABLE `perusahaan`
   MODIFY `id_perusahaan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `unit_kerjasama`
+-- AUTO_INCREMENT untuk tabel `unit_kerjasama`
 --
 ALTER TABLE `unit_kerjasama`
   MODIFY `id_unitkerjasama` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
