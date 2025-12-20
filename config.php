@@ -1,6 +1,6 @@
 <?php
 $BASE_URL = 'http://localhost/MagangInAja/';
-
+$BASE_PATH = __DIR__ . '/';
 
 $host = 'localhost';
 $username = 'root';
