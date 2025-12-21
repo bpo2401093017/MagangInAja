@@ -1,1 +1,5 @@
-<!-- bagian dashboard perusahaan -->
+<?php
+require_once '../config.php';
+require_once '../templates/header_perusahaan.php'; 
+
+?>
