@@ -2,35 +2,31 @@
 require_once '../config.php';
 require_once '../templates/header_admin.php';
 
-$query_perusahaan = "SELECT COUNT(*) as total FROM perusahaan";
-$res_perusahaan = mysqli_query($conn, $query_perusahaan);
-$row_perusahaan = mysqli_fetch_assoc($res_perusahaan);
-$total_perusahaan = $row_perusahaan['total'];
+$total_perusahaan = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM perusahaan"))['total'];
 ?>
 
 <main class="main-content">
     <div class="content-header">
         <h2 class="page-title">Selamat Datang, <?= isset($_SESSION['username']) ? ucfirst($_SESSION['username']) : 'Admin'; ?>!</h2>
         <p class="page-subtitle">
-            Selamat datang di panel administrasi <strong>SIPADEKPNP</strong>.<br>
-            Anda memiliki akses penuh untuk mengelola data kemitraan perusahaan dan pemantauan sistem.
+            Ringkasan data mitra <strong>SIPADEKPNP</strong>.
         </p>
     </div>
 
     <div class="simple-data-list">
-        
         <div class="data-row">
             <div class="data-info">
-                <span class="data-label">Mitra Perusahaan</span>
-                <span class="data-desc">Total perusahaan aktif yang telah bekerjasama</span>
+                <span class="data-label">Mitra Industri</span>
+                <span class="data-desc">Perusahaan Terdaftar saat ini</span>
             </div>
-            <div class="data-value">
-                <?= $total_perusahaan; ?>
-            </div>
+            <div class="data-value" style="color: #2E8B47; font-size: 2rem; font-weight: bold;"><?= $total_perusahaan; ?></div>
         </div>
+    </div>
 
+    <div style="margin-top: 30px; display: flex; gap: 15px;">
+        <a href="../perusahaan/register_perusahaan/register.php" class="btn-theme-green">Tambah Mitra Baru</a>
+        <a href="../admin/data_perusahaan.php" class="btn-theme-white">Kelola Data Perusahaan</a>
     </div>
 </main>
 
-</div> </body>
-</html>
+</div> </body> </html>

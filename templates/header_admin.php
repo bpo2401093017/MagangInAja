@@ -1,44 +1,99 @@
 <?php
-// Cek Session Admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'super_admin') {
-    header("Location: ../admin/login_admin.php");
-    exit;
-}
+$base_url = "http://localhost/MagangInAja/";
 ?>
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - SIPADEKPNP</title>
-    <link rel="stylesheet" href="../css/style.css"> <link rel="stylesheet" href="../css/admin.css"> </head>
+    <title>Admin Panel - SIPADEKPNP</title>
+    <link rel="stylesheet" href="<?= $base_url; ?>css/admin.css">
+    <style>
+        .sidebar {
+            width: 250px;
+            background: #2E8B47;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+            padding: 20px 0;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+            margin: 0;
+        }
+        .sidebar-menu li a {
+            padding: 15px 25px;
+            display: block;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+        .sidebar-menu li a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding-left: 35px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            background: #f4f7f6;
+            min-height: 100vh;
+        }
+        /* Style Tambahan untuk Button Tema Hijau Putih */
+        .btn-theme-green {
+            background-color: #2E8B47;
+            color: white;
+            border: 2px solid #2E8B47;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-theme-green:hover {
+            background-color: white;
+            color: #2E8B47;
+        }
+        .btn-theme-white {
+            background-color: white;
+            color: #2E8B47;
+            border: 2px solid #2E8B47;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-theme-white:hover {
+            background-color: #2E8B47;
+            color: white;
+        }
+    </style>
+</head>
 <body>
 
 <div class="admin-container">
     <aside class="sidebar">
         <div class="sidebar-header">
-            <h3>Admin Panel</h3>
+            <h3>MagangInAja</h3>
+            <small>Administrator Panel</small>
         </div>
         <ul class="sidebar-menu">
-            <li>
-                <a href="dashboard_admin.php">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><path d="M9 22V12h6v10"></path></svg>
-                    Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="21" width="18" height="2"></rect><path d="M5 21V7l8-4 8 4v14"></path><path d="M9 10a1 1 0 011-1h4a1 1 0 011 1v10H9V10z"></path></svg>
-                    Data Perusahaan
-                </a>
-            </li>
-            <li>
-                <a href="../logout.php" onclick="return confirm('Yakin ingin keluar?');">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    Logout
-                </a>
+            <li><a href="<?= $base_url; ?>dashboard/dashboard_admin.php">Dashboard</a></li>
+            <li><a href="<?= $base_url; ?>admin/data_perusahaan.php">Data Perusahaan</a></li>
+            <li style="margin-top: 50px;">
+                <a href="<?= $base_url; ?>logout.php" style="color: #ff7675;">Logout</a>
             </li>
         </ul>
     </aside>
-
-
