@@ -1,35 +1,6 @@
 <?php
 require_once '../config.php';
-
-if (isset($_SESSION['user_id']) && $_SESSION['role'] == 'super_admin') {
-    header("Location: ../dashboard/dashboard_admin.php");
-    exit;
-}
-
-$error = '';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = $_POST['password'];
-
-    $query = "SELECT * FROM users WHERE username = '$username' AND roles = 'super_admin'";
-    $result = mysqli_query($conn, $query);
-
-    if (mysqli_num_rows($result) === 1) {
-        $row = mysqli_fetch_assoc($result);
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['user_id'] = $row['id_user'];
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['role'] = $row['roles'];
-            header("Location: ../dashboard/dashboard_admin.php");
-            exit;
-        } else {
-            $error = "Password salah!";
-        }
-    } else {
-        $error = "Akun tidak ditemukan!";
-    }
-}
+require_once 'prosesLogin.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -40,10 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body class="login-page">
+    
 
     <div class="login-card">
         <div class="login-header">
-            <h2>Login Admin</h2>
+            <h2>Login</h2>
             <p>Silakan masuk untuk mengelola sistem</p>
         </div>
         
@@ -51,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="alert"><?= $error ?></div>
         <?php endif; ?>
 
-        <form action="" method="POST">
+        <form action="prosesLogin.php" method="POST">
             <div class="form-group">
                 <label>Username</label>
                 <div class="input-wrapper">

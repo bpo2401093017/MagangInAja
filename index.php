@@ -33,12 +33,8 @@ require_once 'config.php';
                 <a href="#">Jurusan</a>
             </div>
 
-            <div class="dropdown">
-                <a href="javascript:void(0)" class="btn-login" onclick="bukaDropdown()">Log In ▾</a>
-                <div id="menuLogin" class="dropdown-content">
-                    <a href="#">Login Mahasiswa</a>
-                    <a href="admin/login_admin.php">Login Admin</a>
-                </div>
+           <div class="login-buttons">                
+                <a href="auth/login.php" class="btn-login">Login</a>
             </div>
         </nav>
 
