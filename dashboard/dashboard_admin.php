@@ -2,6 +2,7 @@
 require_once '../config.php';
 require_once '../templates/header_admin.php';
 
+
 $total_perusahaan = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM perusahaan"))['total'];
 ?>
 
@@ -29,4 +30,11 @@ $total_perusahaan = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as t
     </div>
 </main>
 
-</div> </body> </html>
+</div> 
+</body> 
+
+
+</html>
+<?php
+include '../templates/footer.php';
+?>

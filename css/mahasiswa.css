@@ -1,0 +1,131 @@
+:root {
+    --primary-green: #2E8B47;
+    --sidebar-width: 250px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body { background-color: #f4f7f6; display: flex; }
+
+/* SIDEBAR LAYOUT */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--primary-green);
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    z-index: 1000;
+}
+
+.sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+.sidebar-menu { list-style: none; padding: 20px 0; flex-grow: 1; }
+
+.sidebar-menu li a {
+    padding: 15px 25px;
+    display: block;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.sidebar-menu li a:hover, .sidebar-menu li a.active {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding-left: 35px;
+}
+
+/* FOOTER / PROFILE SECTION */
+.sidebar-footer {
+    position: relative;
+    padding: 15px;
+    background: rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.user-profile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.user-profile-toggle:hover { background: rgba(255,255,255,0.1); }
+
+.mini-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; }
+
+.user-details { flex: 1; overflow: hidden; }
+
+.user-name { display: block; font-size: 14px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; }
+
+.user-role { font-size: 11px; opacity: 0.7; }
+
+.chevron-icon { font-size: 10px; transition: 0.3s; }
+
+/* POPUP MENU */
+.profile-menu-container {
+    position: absolute;
+    bottom: 85px;
+    left: 15px;
+    right: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: none; /* Sembunyi secara default */
+    flex-direction: column;
+    padding: 10px 0;
+    overflow: hidden;
+}
+
+.profile-menu-container.active { display: flex; animation: slideUp 0.3s ease; }
+
+.profile-menu-container a {
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.profile-menu-container a:hover { background: #f4f4f4; color: var(--primary-green); }
+
+.profile-menu-container hr { border: none; border-top: 1px solid #eee; margin: 5px 0; }
+
+@keyframes slideUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* 1. Pastikan container utama memenuhi tinggi layar */
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 2. Main content harus Flexbox agar bisa mendorong footer */
+.main-content {
+    margin-left: 250px; /* Lebar sidebar */
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Konten disusun dari atas ke bawah */
+    min-height: 100vh;      /* Tinggi minimal seukuran layar monitor */
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+/* 3. Atur Footer agar di bawah kali dan di tengah */
+.footer {
+    margin-top: auto;    /* KUNCI: Mendorong footer ke paling bawah layar */
+    text-align: center;  /* KUNCI: Membuat teks ke tengah */
+    padding: 30px 0;     /* Memberi jarak atas dan bawah */
+    width: 100%;
+    color: #888;
+    font-size: 14px;
+    border-top: 1px solid #eee; /* Garis tipis opsional agar rapi */
+}
+

@@ -26,16 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['roles'];
+            $_SESSION['foto'] = $user['foto'];
 
             // **redirect sesuai role**
             if ($user['roles'] === 'super_admin') {
-                header("Location: ../dashboard/dashboard_admin.php");
+                header("Location: {$base_url}dashboard/dashboard_admin.php");
             } else if ($user['roles'] === 'perusahaan') {
-                header("Location: ../dashboard/dashboard_perusahaan.php");
+                header("Location: {$base_url}dashboard/dashboard_perusahaan.php");
             } else if ($user['roles'] === 'admin_jurusan') {
-                header("Location: ../dashboard/dashboard_jurusan.php");
+                header("Location: {$base_url}dashboard/dashboard_jurusan.php");
             }else {
-                header("Location: ../dashboard/dashboard_mahasiswa.php");
+                header("Location: {$base_url}dashboard/dashboard_mahasiswa.php");
             }
             exit;
 

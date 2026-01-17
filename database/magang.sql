@@ -98,15 +98,7 @@ CREATE TABLE `prodi` (
 -- Struktur dari tabel `unit_kerjasama`
 --
 
-CREATE TABLE `unit_kerjasama` (
-  `id_unitkerjasama` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `nama` varchar(200) NOT NULL,
-  `keterangan` text NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `no_hp` varchar(20) NOT NULL,
-  `contact_person` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- --------------------------------------------------------
 

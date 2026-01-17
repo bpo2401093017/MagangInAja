@@ -51,7 +51,6 @@ $result = mysqli_query($conn, $query);
                 <?php endif; ?>
             </tbody>
         </table>
-    </div>
-</main>
+        
 
-</div> </body> </html>
+

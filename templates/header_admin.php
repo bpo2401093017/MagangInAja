@@ -79,7 +79,7 @@ $base_url = "http://localhost/MagangInAja/";
             background-color: #2E8B47;
             color: white;
         }
-    </style>
+  </style>
 </head>
 <body>
 
@@ -93,7 +93,7 @@ $base_url = "http://localhost/MagangInAja/";
             <li><a href="<?= $base_url; ?>dashboard/dashboard_admin.php">Dashboard</a></li>
             <li><a href="<?= $base_url; ?>admin/data_perusahaan.php">Data Perusahaan</a></li>
             <li style="margin-top: 50px;">
-                <a href="<?= $base_url; ?>logout.php" style="color: #ff7675;">Logout</a>
+                <a href="<?= $base_url; ?>/auth/logout.php" style="color: #ff7675;">Logout</a>
             </li>
         </ul>
     </aside>
