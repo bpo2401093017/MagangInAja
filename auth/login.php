@@ -25,6 +25,12 @@ $error = '';
         <?php endif; ?>
 
         <form action="prosesLogin.php" method="POST">
+            <?php if (isset($_GET['error'])): ?>
+                <div style="background-color: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border: 1px solid #fecaca; text-align: center;">
+                    <i class="ph-bold ph-warning-circle"></i> 
+                    <?= htmlspecialchars($_GET['error']); ?>
+                </div>
+            <?php endif; ?>
             <div class="form-group">
                 <label>Username</label>
                 <div class="input-wrapper">
