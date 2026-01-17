@@ -1,6 +1,7 @@
 <?php
 require_once '../config.php';
-require_once 'prosesLogin.php';
+
+$error = '';
 ?>
 <!DOCTYPE html>
 <html lang="id">

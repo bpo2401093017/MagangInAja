@@ -1,9 +1,9 @@
 <?php
-require_once '../config.php';
-
 session_start();
 
-$error = '';
+require_once '../config.php';
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -29,13 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // **redirect sesuai role**
             if ($user['roles'] === 'super_admin') {
-                header("Location: admin/");
+                header("Location: ../dashboard/dashboard_admin.php");
             } else if ($user['roles'] === 'perusahaan') {
-                header("Location: perusahaan/");
+                header("Location: ../dashboard/dashboard_perusahaan.php");
             } else if ($user['roles'] === 'admin_jurusan') {
-                header("Location: jurusan/");
+                header("Location: ../dashboard/dashboard_jurusan.php");
             }else {
-                header("Location: mahasiswa/");
+                header("Location: ../dashboard/dashboard_mahasiswa.php");
             }
             exit;
 
