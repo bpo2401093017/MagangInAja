@@ -1,21 +1,23 @@
 <?php
 // Pastikan config sudah menyertakan session_start() dan variabel $base_url
-session_start();
-require_once '../config.php'; 
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../auth/auth_perusahaan.php';
 
-// Proteksi halaman: Jika belum login, tendang ke halaman login
-if (!isset($_SESSION['id_user'])) {
-    header("Location: " . $base_url . "index.php");
-    exit();
-}
+// --- LOGIKA PENGECEKAN DATA PERUSAHAAN ---
+$id_user = $_SESSION['user_id'];
+$cek_prs = mysqli_query($conn, "SELECT id_perusahaan FROM perusahaan WHERE id_user = '$id_user'");
+$sudah_isi_data = mysqli_num_rows($cek_prs) > 0;
+
+// Tentukan link tujuan
+$link_data_prs = $sudah_isi_data ? "data_perusahaan.php" : "form_data_perusahaan.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahasiswa Dashboard - MagangInAja</title>
-    <link rel="stylesheet" href="<?= $base_url; ?>css/mahasiswa.css">
+    <title>Perusahaan Dashboard - MagangInAja</title>
+    <link rel="stylesheet" href="<?= $base_url; ?>css/perusahaan.css">
 </head>
 <body>
 
@@ -23,20 +25,26 @@ if (!isset($_SESSION['id_user'])) {
     <aside class="sidebar">
         <div class="sidebar-header">
             <h3>MagangInAja</h3>
-            <small>Mahasiswa Panel</small>
+            <small>Perusahaan Panel</small>
         </div>
 
         <ul class="sidebar-menu">
             <li>
-                <a href="<?= $base_url; ?>mahasiswa/dashboard_mahasiswa.php" 
-                   class="<?= basename($_SERVER['PHP_SELF']) == 'dashboard_mahasiswa.php' ? 'active' : ''; ?>">
+                <a href="<?= $base_url; ?>dashboard/dashboard_perusahaan.php" 
+                   class="<?= basename($_SERVER['PHP_SELF']) == 'dashboard_perusahaan.php' ? 'active' : ''; ?>">
                    Dashboard
                 </a>
             </li>
             <li>
-                <a href="<?= $base_url; ?>mahasiswa/lowongan.php"
-                   class="<?= basename($_SERVER['PHP_SELF']) == 'data_mahasiswa.php' ? 'active' : ''; ?>">
-                   Cari Lowongan
+                <a href="<?= $base_url; ?>perusahaan/data_perusahaan/<?= $link_data_prs; ?>"
+                   class="<?= (basename($_SERVER['PHP_SELF']) == 'data_perusahaan.php' || basename($_SERVER['PHP_SELF']) == 'form_data_perusahaan.php') ? 'active' : ''; ?>">
+                   Data Perusahaan
+                </a>
+            </li>
+            <li>
+                <a href="<?= $base_url; ?>mahasiswa/data_mahasiswa/<?= $link_data_mhs; ?>"
+                   class="<?= basename($_SERVER['PHP_SELF']) == 'pengajuan_magang.php' ? 'active' : ''; ?>">
+                   Pengajuan Magang
                 </a>
             </li>
             <li>
@@ -67,8 +75,8 @@ if (!isset($_SESSION['id_user'])) {
                      onerror="this.src='https://ui-avatars.com/api/?name=<?= $_SESSION['username']; ?>&background=fff&color=2E8B47'"
                      alt="User">
                 <div class="user-details">
-                    <span class="user-name"><?= $_SESSION['username'] ?? 'Mahasiswa'; ?></span>
-                    <span class="user-role">Mahasiswa</span>
+                    <span class="user-name"><?= $_SESSION['username'] ?? 'Perushaan'; ?></span>
+                    <span class="user-role">Perusahaan</span>
                 </div>
                 <span class="chevron-icon">▲</span>
             </div>
