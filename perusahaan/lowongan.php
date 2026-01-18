@@ -1,6 +1,6 @@
 <?php
-require_once '../auth/auth_mahasiswa.php';
-require_once '../templates/header_mahasiswa.php';
+require_once '../auth/auth_perusahaan.php';
+require_once '../templates/header_perusahaan.php';
 
 // Simulasi Data (Nantinya data ini diambil dari Database)
 $lowongan_dummy = [
