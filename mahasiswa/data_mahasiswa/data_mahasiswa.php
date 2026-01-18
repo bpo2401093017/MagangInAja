@@ -97,7 +97,7 @@ while ($row = mysqli_fetch_assoc($resultBerkas)) {
 
     <!-- BERKAS -->
     <div class="card">
-        <h2>Berkas Mahasiswa</h2>
+        <h2>Berkas Mahasiswa (opsional)</h2>
 
         <div class="berkas-grid">
             <div class="berkas-item">
