@@ -50,15 +50,9 @@ $link_data_prs = $sudah_isi_data ? "data_perusahaan.php" : "form_data_perusahaan
             <li>
                 <a href="<?= $base_url; ?>mahasiswa/lowongan.php"
                    class="<?= basename($_SERVER['PHP_SELF']) == 'lowongan.php' ? 'active' : ''; ?>">
-                   Cari Lowongan
+                   Lowongan
                 </a>
-            </li>
-            <li>
-                <a href="<?= $base_url; ?>mahasiswa/riwayat_lamaran.php"
-                   class="<?= basename($_SERVER['PHP_SELF']) == 'riwayat_lamaran.php' ? 'active' : ''; ?>">
-                   Riwayat Lamaran
-                </a>
-            </li>
+            </li>           
         </ul>
 
         <div class="sidebar-footer">

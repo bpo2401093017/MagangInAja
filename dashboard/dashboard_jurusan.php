@@ -8,7 +8,7 @@ $total_perusahaan = 12; // Anda bisa ganti dengan query mysqli
 
 <main class="main-content">
     <div class="content-header">
-        <h2 style="color: #2E8B47; font-size: 24px;">Selamat Datang, <?= ucfirst($_SESSION['username'] ?? 'Mahasiswa'); ?>!</h2>
+        <h2 style="color: #2E8B47; font-size: 24px;">Selamat Datang, <?= ucfirst($_SESSION['username'] ?? 'Jurusan'); ?>!</h2>
         <p style="color: #666; margin-top: 5px;">Pantau status magang dan cari mitra industri terbaik di <strong>SIPADEKPNP</strong>.</p>
     </div>
 

@@ -42,7 +42,7 @@ $link_data_mhs = $sudah_isi_data ? "data_mahasiswa.php" : "form_data_mahasiswa.p
                 </a>
             </li>
             <li>
-                <a href="<?= $base_url; ?>mahasiswa/data_mahasiswa/<?= $link_data_mhs; ?>"
+                <a href="<?= $base_url; ?>mahasiswa/magang/<?= $link_data_mhs; ?>"
                    class="<?= basename($_SERVER['PHP_SELF']) == 'pengajuan_magang.php' ? 'active' : ''; ?>">
                    Pengajuan Magang
                 </a>

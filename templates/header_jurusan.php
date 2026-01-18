@@ -33,17 +33,11 @@ $sudah_isi_data = mysqli_num_rows($cek_jrs) > 0;
                 </a>
             </li>
             <li>
-                <a href="<?= $base_url; ?>mahasiswa/data_mahasiswa/<?= $link_data_mhs; ?>"
+                <a href="<?= $base_url; ?>jurusan/data_mahasiswa/<?= $link_data_mhs; ?>"
                    class="<?= (basename($_SERVER['PHP_SELF']) == 'data_mahasiswa.php' || basename($_SERVER['PHP_SELF']) == 'form_data_mahasiswa.php') ? 'active' : ''; ?>">
                    Data Mahasiswa
                 </a>
-            </li>
-            <li>
-                <a href="<?= $base_url; ?>mahasiswa/data_mahasiswa/<?= $link_data_mhs; ?>"
-                   class="<?= basename($_SERVER['PHP_SELF']) == 'pengajuan_magang.php' ? 'active' : ''; ?>">
-                   Pengajuan Magang
-                </a>
-            </li>
+            </li>           
             <li>
                 <a href="<?= $base_url; ?>mahasiswa/lowongan.php"
                    class="<?= basename($_SERVER['PHP_SELF']) == 'lowongan.php' ? 'active' : ''; ?>">
@@ -51,9 +45,9 @@ $sudah_isi_data = mysqli_num_rows($cek_jrs) > 0;
                 </a>
             </li>
             <li>
-                <a href="<?= $base_url; ?>mahasiswa/riwayat_lamaran.php"
-                   class="<?= basename($_SERVER['PHP_SELF']) == 'riwayat_lamaran.php' ? 'active' : ''; ?>">
-                   Riwayat Lamaran
+                <a href="<?= $base_url; ?>jurusan/register_prodi/data_prodi.php"
+                   class="<?= basename($_SERVER['PHP_SELF']) == 'data_prodi.php' ? 'active' : ''; ?>">
+                   Program Studi
                 </a>
             </li>
         </ul>
