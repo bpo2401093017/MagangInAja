@@ -1,17 +1,7 @@
 <?php
 // Pastikan config sudah menyertakan session_start() dan variabel $base_url
-session_start();
-require_once '../config.php'; 
-
-// Proteksi halaman: Jika belum login, tendang ke halaman login
-if (!isset($_SESSION['user_id'])) {
-    header("Location: " . $base_url . "auth/login.php");
-    exit();
-}
-if ($_SESSION['role'] !== 'mahasiswa') {
-    header("Location: " . $base_url . "auth/login.php?error=" . urlencode("Akses ditolak"));
-    exit();
-}
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../auth/auth_mahasiswa.php';
 
 // --- LOGIKA PENGECEKAN DATA MAHASISWA ---
 $id_user = $_SESSION['user_id'];
@@ -40,7 +30,7 @@ $link_data_mhs = $sudah_isi_data ? "data_mahasiswa.php" : "form_data_mahasiswa.p
 
         <ul class="sidebar-menu">
             <li>
-                <a href="<?= $base_url; ?>mahasiswa/dashboard_mahasiswa.php" 
+                <a href="<?= $base_url; ?>dashboard/dashboard_mahasiswa.php" 
                    class="<?= basename($_SERVER['PHP_SELF']) == 'dashboard_mahasiswa.php' ? 'active' : ''; ?>">
                    Dashboard
                 </a>
@@ -53,7 +43,7 @@ $link_data_mhs = $sudah_isi_data ? "data_mahasiswa.php" : "form_data_mahasiswa.p
             </li>
             <li>
                 <a href="<?= $base_url; ?>mahasiswa/data_mahasiswa/<?= $link_data_mhs; ?>"
-                   class="<?= (basename($_SERVER['PHP_SELF']) == 'data_mahasiswa.php' || basename($_SERVER['PHP_SELF']) == 'form_data_mahasiswa.php') ? 'active' : ''; ?>">
+                   class="<?= basename($_SERVER['PHP_SELF']) == 'pengajuan_magang.php' ? 'active' : ''; ?>">
                    Pengajuan Magang
                 </a>
             </li>

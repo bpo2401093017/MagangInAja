@@ -1,100 +1,145 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Form Data Mahasiswa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .readonly-input { background-color: #e9ecef !important; cursor: not-allowed; }
-        .profile-img { width: 150px; height: 150px; object-fit: cover; border-radius: 50%; }
-    </style>
-</head>
-<body class="bg-light">
+<?php
 
-<div class="container py-5">
-    <form action="update_proses.php" method="POST" enctype="multipart/form-data">
-        <div class="row">
-            
-            <div class="col-md-4">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-primary text-white">Kategori Umum</div>
-                    <div class="card-body text-center">
-                        <img src="uploads/<?php echo $user['foto']; ?>" class="profile-img mb-3" alt="Foto Profil">
-                        <div class="mb-3">
-                            <label class="form-label small">Ubah Foto Profile</label>
-                            <input type="file" name="foto_profile" class="form-control form-control-sm">
-                        </div>
-                        <hr>
-                        <div class="text-start">
-                            <div class="mb-3">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-control readonly-input" value="<?php echo $user['username']; ?>" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">NIM</label>
-                                <input type="text" class="form-control readonly-input" value="<?php echo $user['nim']; ?>" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Gmail</label>
-                                <input type="email" name="gmail" class="form-control" value="<?php echo $user['gmail']; ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">No HP</label>
-                                <input type="text" name="no_hp" class="form-control" value="<?php echo $user['no_hp']; ?>">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Jurusan</label>
-                                <input type="text" class="form-control readonly-input" value="<?php echo $user['jurusan']; ?>" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Prodi</label>
-                                <input type="text" class="form-control readonly-input" value="<?php echo $user['prodi']; ?>" readonly>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+require_once '../../templates/header_mahasiswa.php';
+
+$id_user = $_SESSION['user_id'] ?? null;
+
+
+
+$query = "
+SELECT 
+    u.username,
+    u.email,
+    u.no_hp,
+    u.foto,
+    u.nama_jurusan,
+    u.nama_prodi,
+    u.nim,
+
+    m.nama_lengkap,
+    m.tanggal_lahir,
+    m.jenis_kelamin,
+    m.alamat,
+    m.angkatan,
+    m.kelas
+FROM users u
+LEFT JOIN mahasiswa m ON m.id_user = u.id_user
+WHERE u.id_user = ?
+";
+
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "i", $id_user);
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+$data = mysqli_fetch_assoc($result);
+
+if (!$data) {
+    die("Data mahasiswa tidak ditemukan");
+}
+?>
+?>
+<header>
+     <link rel="stylesheet" href="../../css/data_mahasiswa.css">
+</header>
+<div class="main-content">
+        
+    <div class="page-header">
+        <h1>Data Mahasiswa</h1>
+        <p>Kelola informasi akun dan profil pribadi Anda</p>
+    </div>
+
+    <!-- KATEGORI UMUM -->
+    <div class="card">
+        <h2>Kategori Umum</h2>
+
+        <div class="photo-section">
+            <img src="<?= $base_url; ?>img/profile_mahasiswa/<?= $_SESSION['foto'] ?? 'default.png'; ?>" 
+                     class="mini-avatar" 
+                     onerror="this.src='https://ui-avatars.com/api/?name=<?= $_SESSION['username']; ?>&background=fff&color=2E8B47'"
+                     alt="User">
+            <div>
+                <input type="file">
+                <small>Foto profil dapat diganti</small>
             </div>
-
-            <div class="col-md-8">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-success text-white">Profil Saya</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label class="form-label">Nama Lengkap</label>
-                                <input type="text" name="nama_lengkap" class="form-control" value="<?php echo $mhs['nama_lengkap']; ?>">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" class="form-control" value="<?php echo $mhs['tanggal_lahir']; ?>">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Jenis Kelamin</label>
-                                <select name="jenis_kelamin" class="form-select">
-                                    <option value="Laki-laki" <?php if($mhs['jenis_kelamin'] == 'Laki-laki') echo 'selected'; ?>>Laki-laki</option>
-                                    <option value="Perempuan" <?php if($mhs['jenis_kelamin'] == 'Perempuan') echo 'selected'; ?>>Perempuan</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label class="form-label">Alamat Rumah</label>
-                                <textarea name="alamat" class="form-control" rows="3"><?php echo $mhs['alamat']; ?></textarea>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Angkatan</label>
-                                <input type="number" name="angkatan" class="form-control" value="<?php echo $mhs['angkatan']; ?>">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Kelas</label>
-                                <input type="text" name="kelas" class="form-control" value="<?php echo $mhs['kelas']; ?>">
-                            </div>
-                        </div>
-                        <div class="mt-4 border-top pt-3 text-end">
-                            <button type="submit" class="btn btn-primary px-5">Simpan Perubahan</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </form>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" value="<?= $data['username']; ?>" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>NIM</label>
+                <input type="text" value="<?= $data['nim']; ?>" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" value="<?= $data['email']; ?>">
+            </div>
+
+            <div class="form-group">
+                <label>No HP</label>
+                <input type="text" value="<?= $data['no_hp']; ?>">
+            </div>
+
+            <div class="form-group">
+                <label>Jurusan</label>
+                <input type="text" value="<?= $data['nama_jurusan']; ?>" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Program Studi</label>
+                <input type="text" value="<?= $data['nama_prodi']; ?>" disabled>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFIL MAHASISWA -->
+    <div class="card">
+        <h2>Profil Saya</h2>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" value="<?= $data['nama_lengkap']; ?>">
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal Lahir</label>
+                <input type="date" value="<?= $data['tanggal_lahir']; ?>">
+            </div>
+
+            <div class="form-group">
+                <label>Jenis Kelamin</label>
+                <select>
+                    <option value="">Pilih...</option>
+                    <option <?= $data['jenis_kelamin']=="Laki-laki"?"selected":""; ?>>Laki-laki</option>
+                    <option <?= $data['jenis_kelamin']=="Perempuan"?"selected":""; ?>>Perempuan</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Alamat Rumah</label>
+                <textarea><?= $data['alamat']; ?></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Angkatan</label>
+                <input type="number" value="<?= $data['angkatan']; ?>">
+            </div>
+
+            <div class="form-group">
+                <label>Kelas</label>
+                <input type="text" value="<?= $data['kelas']; ?>">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-action">
+        <button class="btn-primary">Simpan Perubahan</button>
+    </div>
+
 </div>

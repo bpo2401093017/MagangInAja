@@ -1,16 +1,17 @@
 <?php
 require_once '../config.php';
-include_once '../auth/auth_mahasiswa.php';
+include_once '../auth/auth_jurusan.php';
 
 $id_user = $_SESSION['user_id'];
 
 // 2. Gunakan query yang kolomnya sesuai dengan tabel di database Anda
-$query = "SELECT username, email, no_hp,  foto FROM users WHERE id_user = '$id_user'";
-$Mquery = "SELECT nim, email, no_hp, nama_jurusan, nama_prodi FROM mahasiswa WHERE id_user = '$id_user'";
+$query = "SELECT username, email, no_hp, nama_jurusan, foto FROM users WHERE id_user = '$id_user'";
 $result = mysqli_query($conn, $query);
-$Mresult = mysqli_query($conn, $Mquery);
 $data = mysqli_fetch_assoc($result);
-$Mdata = mysqli_fetch_assoc($Mresult);
+
+$Jquery = "SELECT nama_jurusan FROM jurusan WHERE id_user = '$id_user'";
+$Jresult = mysqli_query($conn, $Jquery);
+$Jdata = mysqli_fetch_assoc($Jresult);
 
 // 3. Tambahkan proteksi jika data tidak ditemukan agar tidak error null
 if (!$data) {
@@ -46,12 +47,12 @@ if (!$data) {
 </div>
         <div class="form-group">
             <label>Username</label>
-            <input type="text" value="<?= $data['username']; ?>" class="readonly" readonly>
+            <input type="text" name="username" value="<?= $data['username']; ?>" required>
         </div>
 
-        <div class="form-group">
-            <label>NIM</label>
-            <input type="text" value="<?= $Mdata['nim']; ?>" class="readonly" readonly>
+      <div class="form-group">
+            <label>Jurusan</label>
+            <input type="text" name="nama_jurusan" value="<?= $Jdata['nama_jurusan']; ?>" required>
         </div>
 
         <div class="form-group">
@@ -62,19 +63,10 @@ if (!$data) {
         <div class="form-group">
             <label>Nomor WhatsApp</label>
             <input type="text" name="no_hp" value="<?= $data['no_hp']; ?>" required>
-        </div>
-
-        <div class="form-group">
-            <label>Jurusan</label>
-            <input type="text" value="<?= $Mdata['nama_jurusan']; ?>" class="readonly" readonly>
-        </div>
-
-        <div class="form-group">
-            <label>Program Studi</label>
-            <input type="text" value="<?= $Mdata['nama_prodi']; ?>" class="readonly" readonly>
-        </div>
+        </div>       
+       
 
         <button type="submit" class="btn-save">Simpan Perubahan</button>
-        <a href="<?= $base_url; ?>dashboard/dashboard_mahasiswa.php" class="btn-back">Kembali ke Dashboard</a>
+        <a href="<?= $base_url; ?>dashboard/dashboard_jurusan.php" class="btn-back">Kembali ke Dashboard</a>
     </form>
 </div>

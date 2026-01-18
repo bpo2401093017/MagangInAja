@@ -29,11 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Redirect sesuai role
             if ($user['roles'] === 'super_admin') {
                 header("Location: {$base_url}dashboard/dashboard_admin.php");
+                exit;
             } else if ($user['roles'] === 'perusahaan') {
                 header("Location: {$base_url}dashboard/dashboard_perusahaan.php");
+                exit;
             } else if ($user['roles'] === 'admin_jurusan') {
                 header("Location: {$base_url}dashboard/dashboard_jurusan.php");
-            }   if ($user['roles'] === 'mahasiswa') {
+                exit;
+            }  else if ($user['roles'] === 'mahasiswa') {
                     // Pastikan besar kecil huruf 'Verified' sesuai dengan di Database (case sensitive)
                     if ($user['status'] !== 'Verified') {
                         $pesan = ($user['status'] === 'Rejected') ? "Akun Anda ditolak." : "Akun Anda belum diverifikasi oleh Admin Jurusan.";
@@ -43,14 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Jika lolos verifikasi, redirect ke dashboard
                     header("Location: {$base_url}dashboard/dashboard_mahasiswa.php");
                     exit;
-                }    
+                }  else {
+                    $pesan = "Role tidak dikenali!";
+                header("Location: {$base_url}auth/login.php?error=" . urlencode($pesan));
+                exit;
+                }  
             
         } else {
-            header("Location: {$base_url}auth/login.php?error=" . urlencode("Password salah!"));
+            $pesan = "Password salah!";
+            header("Location: {$base_url}auth/login.php?error=" . urlencode($pesan));
             exit;
         }
     } else {
-        header("Location: {$base_url}auth/login.php?error=" . urlencode("Akun tidak ditemukan!"));
+        $pesan = "Akun tidak ditemukan!";
+        header("Location: {$base_url}auth/login.php?error=" . urlencode($pesan));
         exit;
     }
     

@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $host = 'localhost';
 $username = 'root';
@@ -12,4 +15,4 @@ if (mysqli_connect_errno()) {
 }
 
 $base_url = "http://localhost/MagangInAja/";
-?>
+$base_path = __DIR__ . '/';
