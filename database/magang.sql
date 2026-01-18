@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jan 2026 pada 10.01
+-- Waktu pembuatan: 18 Jan 2026 pada 13.20
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -41,6 +41,27 @@ CREATE TABLE `jurusan` (
 
 INSERT INTO `jurusan` (`id_jurusan`, `id_user`, `kode`, `nama_jurusan`, `keterangan`) VALUES
 (1, 5, '', 'Teknologi Informas', '');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `lowongan`
+--
+
+CREATE TABLE `lowongan` (
+  `id_lowongan` int(11) NOT NULL,
+  `id_perusahaan` int(11) NOT NULL,
+  `judul_lowongan` varchar(150) NOT NULL,
+  `kuota` int(11) NOT NULL,
+  `id_jurusan` int(11) NOT NULL,
+  `id_prodi` int(11) NOT NULL,
+  `lokasi` varchar(159) NOT NULL,
+  `status` enum('dibuka','ditutup','penuh') NOT NULL,
+  `persyaratan` text NOT NULL,
+  `tanggal_mulai` date NOT NULL,
+  `tanggal_selesai` date NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -96,8 +117,14 @@ CREATE TABLE `mahasiswa_berkas` (
 CREATE TABLE `pengajuan` (
   `id_pengajuan` int(11) NOT NULL,
   `id_mahasiswa` int(11) NOT NULL,
-  `nama_perusahaan` varchar(100) NOT NULL,
-  `alamat_perusahaan` text NOT NULL
+  `id_perusahaan` int(11) NOT NULL,
+  `id_lowongan` int(11) NOT NULL,
+  `nama_perusahaan` varchar(150) NOT NULL,
+  `alamat_perusahaan` text NOT NULL,
+  `status` enum('menunggu_verifikasi','verifikasi_ditolak','menunggu_surat_permohonan','pending','diterima','ditolak') NOT NULL,
+  `jenis` enum('mandiri','lowongan') NOT NULL,
+  `id_surat_permohonan` int(11) NOT NULL,
+  `create_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -155,6 +182,24 @@ INSERT INTO `prodi` (`id_prodi`, `id_jurusan`, `nama_prodi`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `surat`
+--
+
+CREATE TABLE `surat` (
+  `id_surat_permohonan` int(11) NOT NULL,
+  `id_pengajuan` int(11) NOT NULL,
+  `id_perusahaan` int(11) NOT NULL,
+  `jenis_surat` enum('permohonan','pelaksanaan') NOT NULL,
+  `nomor_surat` varchar(100) NOT NULL,
+  `tanggal_surat` date NOT NULL,
+  `file_surat` varchar(255) NOT NULL,
+  `status` enum('aktif','selesai') NOT NULL DEFAULT 'aktif',
+  `create_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `users`
 --
 
@@ -194,6 +239,12 @@ ALTER TABLE `jurusan`
   ADD PRIMARY KEY (`id_jurusan`);
 
 --
+-- Indeks untuk tabel `lowongan`
+--
+ALTER TABLE `lowongan`
+  ADD PRIMARY KEY (`id_lowongan`);
+
+--
 -- Indeks untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
@@ -225,6 +276,12 @@ ALTER TABLE `prodi`
   ADD PRIMARY KEY (`id_prodi`);
 
 --
+-- Indeks untuk tabel `surat`
+--
+ALTER TABLE `surat`
+  ADD PRIMARY KEY (`id_surat_permohonan`);
+
+--
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -239,6 +296,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `jurusan`
   MODIFY `id_jurusan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `lowongan`
+--
+ALTER TABLE `lowongan`
+  MODIFY `id_lowongan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`
@@ -269,6 +332,12 @@ ALTER TABLE `perusahaan`
 --
 ALTER TABLE `prodi`
   MODIFY `id_prodi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `surat`
+--
+ALTER TABLE `surat`
+  MODIFY `id_surat_permohonan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

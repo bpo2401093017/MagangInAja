@@ -91,7 +91,10 @@ $base_url = "http://localhost/MagangInAja/";
         </div>
         <ul class="sidebar-menu">
             <li><a href="<?= $base_url; ?>dashboard/dashboard_admin.php">Dashboard</a></li>
-            <li><a href="<?= $base_url; ?>admin/data_perusahaan.php">Data Perusahaan</a></li>
+            <li><a href="<?= $base_url; ?>admin/data_perusahaan.php">Data Master</a></li>
+            <li><a href="<?= $base_url; ?>admin/data_jurusan.php">Pengajuan Magang</a></li>
+            <li><a href="<?= $base_url; ?>admin/data_mahasiswa.php">Lowongan</a></li>
+            <li><a href="<?= $base_url; ?>admin/data_mahasiswa.php">Surat</a></li>
             <li style="margin-top: 50px;">
                 <a href="<?= $base_url; ?>/auth/logout.php" style="color: #ff7675;">Logout</a>
             </li>
