@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jan 2026 pada 03.45
+-- Waktu pembuatan: 18 Jan 2026 pada 10.01
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -56,8 +56,8 @@ CREATE TABLE `mahasiswa` (
   `tanggal_lahir` date NOT NULL,
   `jenis_kelamin` enum('laki-laki','perempuan') NOT NULL,
   `alamat` text NOT NULL,
-  `nama_jurusan` varchar(150) NOT NULL,
-  `nama_prodi` varchar(150) NOT NULL,
+  `id_jurusan` int(11) NOT NULL,
+  `id_prodi` int(11) NOT NULL,
   `angkatan` year(4) NOT NULL,
   `kelas` varchar(50) NOT NULL,
   `email` varchar(150) NOT NULL,
@@ -69,8 +69,23 @@ CREATE TABLE `mahasiswa` (
 -- Dumping data untuk tabel `mahasiswa`
 --
 
-INSERT INTO `mahasiswa` (`id_mahasiswa`, `id_user`, `nim`, `nama_lengkap`, `tanggal_lahir`, `jenis_kelamin`, `alamat`, `nama_jurusan`, `nama_prodi`, `angkatan`, `kelas`, `email`, `no_hp`, `create_at`) VALUES
-(1, 4, '2401093017', 'Mila Huriyati Fathina', '2005-11-01', 'perempuan', 'Pauh', 'Teknologi Informasi', 'D3 Managemen Informatika', '2024', '2C', 'mila@gmail.com', '00000', '2026-01-18 03:04:31');
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `id_user`, `nim`, `nama_lengkap`, `tanggal_lahir`, `jenis_kelamin`, `alamat`, `id_jurusan`, `id_prodi`, `angkatan`, `kelas`, `email`, `no_hp`, `create_at`) VALUES
+(1, 4, '2401093017', 'Mila Huriyati Fathina', '2005-11-01', 'perempuan', 'Pauh', 1, 1, '2024', '2C', 'mila@gmail.com', '00000', '2026-01-18 03:04:31');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `mahasiswa_berkas`
+--
+
+CREATE TABLE `mahasiswa_berkas` (
+  `id_berkas` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `jenis_berkas` varchar(50) NOT NULL,
+  `nama_file` varchar(255) DEFAULT NULL,
+  `path_file` varchar(255) DEFAULT NULL,
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -102,6 +117,7 @@ CREATE TABLE `perusahaan` (
   `no_hp` varchar(20) NOT NULL,
   `contact_person` varchar(200) NOT NULL,
   `alamat_perusahaan` text NOT NULL,
+  `is_registered` enum('no','yes') NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -109,10 +125,10 @@ CREATE TABLE `perusahaan` (
 -- Dumping data untuk tabel `perusahaan`
 --
 
-INSERT INTO `perusahaan` (`id_perusahaan`, `id_user`, `nama_perusahaan`, `bidang`, `keterangan`, `foto`, `email`, `no_hp`, `contact_person`, `alamat_perusahaan`, `create_at`) VALUES
-(1, 2, 'PT. Mencari Cinta Sejati', '', '', '', 'mcs@gmail.com', '1234567890', 'ayana', 'Jl. Dr. Moh. Hatta, Binuang Kp.Dalam, Kec. Pauh, Kota Padang, Sumatera Barat 25176', '2025-12-21 20:13:13'),
-(2, 3, 'PT. Malika Jaya', '', '', '', 'hrd@perusahaan.com', '00000', 'Sinta', '', '2025-12-23 14:41:34'),
-(3, 6, 'PT. Bhinneka', '', '', '', 'bhinneka@gmail.com', '00000', 'Sinta', '', '2026-01-18 09:37:30');
+INSERT INTO `perusahaan` (`id_perusahaan`, `id_user`, `nama_perusahaan`, `bidang`, `keterangan`, `foto`, `email`, `no_hp`, `contact_person`, `alamat_perusahaan`, `is_registered`, `create_at`) VALUES
+(1, 2, 'PT. Mencari Cinta Sejati', '', '', '', 'mcs@gmail.com', '1234567890', 'ayana', 'Jl. Dr. Moh. Hatta, Binuang Kp.Dalam, Kec. Pauh, Kota Padang, Sumatera Barat 25176', 'yes', '2025-12-21 20:13:13'),
+(2, 3, 'PT. Malika Jaya', '', '', '', 'hrd@perusahaan.com', '00000', 'Sinta', '', 'yes', '2025-12-23 14:41:34'),
+(3, 6, 'PT. Bhinneka', '', '', '', 'bhinneka@gmail.com', '00000', 'Sinta', '', 'yes', '2026-01-18 09:37:30');
 
 -- --------------------------------------------------------
 
@@ -132,7 +148,9 @@ CREATE TABLE `prodi` (
 --
 
 INSERT INTO `prodi` (`id_prodi`, `id_jurusan`, `nama_prodi`, `status`) VALUES
-(1, 1, 'D3 Manajemen Informatika', 'aktif');
+(1, 1, 'D3 Manajemen Informatika', 'tidak aktif'),
+(2, 1, 'D3 Teknik Komputer', 'aktif'),
+(3, 1, 'D4 TRPL', 'aktif');
 
 -- --------------------------------------------------------
 
@@ -182,6 +200,13 @@ ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id_mahasiswa`);
 
 --
+-- Indeks untuk tabel `mahasiswa_berkas`
+--
+ALTER TABLE `mahasiswa_berkas`
+  ADD PRIMARY KEY (`id_berkas`),
+  ADD KEY `id_user` (`id_user`);
+
+--
 -- Indeks untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
@@ -222,6 +247,12 @@ ALTER TABLE `mahasiswa`
   MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `mahasiswa_berkas`
+--
+ALTER TABLE `mahasiswa_berkas`
+  MODIFY `id_berkas` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
@@ -237,13 +268,23 @@ ALTER TABLE `perusahaan`
 -- AUTO_INCREMENT untuk tabel `prodi`
 --
 ALTER TABLE `prodi`
-  MODIFY `id_prodi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_prodi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `mahasiswa_berkas`
+--
+ALTER TABLE `mahasiswa_berkas`
+  ADD CONSTRAINT `mahasiswa_berkas_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
