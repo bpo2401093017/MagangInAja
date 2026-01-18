@@ -48,7 +48,7 @@ $link_data_prs = $sudah_isi_data ? "data_perusahaan.php" : "form_data_perusahaan
                 </a>
             </li>
             <li>
-                <a href="<?= $base_url; ?>mahasiswa/lowongan.php"
+                <a href="<?= $base_url; ?>perusahaan/lowongan.php"
                    class="<?= basename($_SERVER['PHP_SELF']) == 'lowongan.php' ? 'active' : ''; ?>">
                    Lowongan
                 </a>

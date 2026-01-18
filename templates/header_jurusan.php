@@ -39,7 +39,7 @@ $sudah_isi_data = mysqli_num_rows($cek_jrs) > 0;
                 </a>
             </li>           
             <li>
-                <a href="<?= $base_url; ?>mahasiswa/lowongan.php"
+                <a href="<?= $base_url; ?>jurusan/lowongan.php"
                    class="<?= basename($_SERVER['PHP_SELF']) == 'lowongan.php' ? 'active' : ''; ?>">
                    Cari Lowongan
                 </a>
