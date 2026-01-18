@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 20 Des 2025 pada 05.09
+-- Waktu pembuatan: 18 Jan 2026 pada 03.45
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -35,6 +35,13 @@ CREATE TABLE `jurusan` (
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `jurusan`
+--
+
+INSERT INTO `jurusan` (`id_jurusan`, `id_user`, `kode`, `nama_jurusan`, `keterangan`) VALUES
+(1, 5, '', 'Teknologi Informas', '');
+
 -- --------------------------------------------------------
 
 --
@@ -45,18 +52,37 @@ CREATE TABLE `mahasiswa` (
   `id_mahasiswa` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `nim` varchar(100) NOT NULL,
-  `nama` varchar(150) NOT NULL,
+  `nama_lengkap` varchar(150) NOT NULL,
+  `tanggal_lahir` date NOT NULL,
   `jenis_kelamin` enum('laki-laki','perempuan') NOT NULL,
   `alamat` text NOT NULL,
   `nama_jurusan` varchar(150) NOT NULL,
   `nama_prodi` varchar(150) NOT NULL,
   `angkatan` year(4) NOT NULL,
+  `kelas` varchar(50) NOT NULL,
   `email` varchar(150) NOT NULL,
   `no_hp` varchar(20) NOT NULL,
-  `foto` varchar(255) NOT NULL,
-  `nama_perusahaan` varchar(255) NOT NULL,
-  `alamat_perusahaan` text NOT NULL,
   `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `mahasiswa`
+--
+
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `id_user`, `nim`, `nama_lengkap`, `tanggal_lahir`, `jenis_kelamin`, `alamat`, `nama_jurusan`, `nama_prodi`, `angkatan`, `kelas`, `email`, `no_hp`, `create_at`) VALUES
+(1, 4, '2401093017', 'Mila Huriyati Fathina', '2005-11-01', 'perempuan', 'Pauh', 'Teknologi Informasi', 'D3 Managemen Informatika', '2024', '2C', 'mila@gmail.com', '00000', '2026-01-18 03:04:31');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pengajuan`
+--
+
+CREATE TABLE `pengajuan` (
+  `id_pengajuan` int(11) NOT NULL,
+  `id_mahasiswa` int(11) NOT NULL,
+  `nama_perusahaan` varchar(100) NOT NULL,
+  `alamat_perusahaan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -79,6 +105,15 @@ CREATE TABLE `perusahaan` (
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `perusahaan`
+--
+
+INSERT INTO `perusahaan` (`id_perusahaan`, `id_user`, `nama_perusahaan`, `bidang`, `keterangan`, `foto`, `email`, `no_hp`, `contact_person`, `alamat_perusahaan`, `create_at`) VALUES
+(1, 2, 'PT. Mencari Cinta Sejati', '', '', '', 'mcs@gmail.com', '1234567890', 'ayana', 'Jl. Dr. Moh. Hatta, Binuang Kp.Dalam, Kec. Pauh, Kota Padang, Sumatera Barat 25176', '2025-12-21 20:13:13'),
+(2, 3, 'PT. Malika Jaya', '', '', '', 'hrd@perusahaan.com', '00000', 'Sinta', '', '2025-12-23 14:41:34'),
+(3, 6, 'PT. Bhinneka', '', '', '', 'bhinneka@gmail.com', '00000', 'Sinta', '', '2026-01-18 09:37:30');
+
 -- --------------------------------------------------------
 
 --
@@ -92,13 +127,12 @@ CREATE TABLE `prodi` (
   `status` enum('aktif','tidak aktif') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `unit_kerjasama`
+-- Dumping data untuk tabel `prodi`
 --
 
-
+INSERT INTO `prodi` (`id_prodi`, `id_jurusan`, `nama_prodi`, `status`) VALUES
+(1, 1, 'D3 Manajemen Informatika', 'aktif');
 
 -- --------------------------------------------------------
 
@@ -114,20 +148,24 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL,
   `update_at` datetime NOT NULL,
   `roles` enum('super_admin','admin_jurusan','mahasiswa','perusahaan') NOT NULL,
-  `foto` varchar(255) NOT NULL
+  `foto` varchar(255) NOT NULL,
+  `no_hp` varchar(20) NOT NULL,
+  `status` enum('Pending','Verified','Rejected') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `email`, `password`, `created_at`, `update_at`, `roles`, `foto`) VALUES
-(1, 'admin', 'admin@gmail.com', '$2a$12$CUEeTQnOwGzepLTQs/YXnOJiIfVf8hmgBVmqwU/DAdZOezaMLuRMy', '2025-12-20 04:58:12', '2025-12-20 04:58:12', 'super_admin', ''),
-(2, 'store', 'mcs@gmail.com', '$2y$10$dZ6OMNppR8HkaHihoFU0Yuk4fiwA4O3Ih2xMKM9UpmsV57Lpik4bW', '2025-12-21 20:13:13', '0000-00-00 00:00:00', 'perusahaan', '');
---
+INSERT INTO `users` (`id_user`, `username`, `email`, `password`, `created_at`, `update_at`, `roles`, `foto`, `no_hp`, `status`) VALUES
+(1, 'admin', 'admin@gmail.com', '$2a$12$CUEeTQnOwGzepLTQs/YXnOJiIfVf8hmgBVmqwU/DAdZOezaMLuRMy', '2025-12-20 04:58:12', '2025-12-20 04:58:12', 'super_admin', '', '', 'Pending'),
+(2, 'store', 'mcs@gmail.com', '$2y$10$dZ6OMNppR8HkaHihoFU0Yuk4fiwA4O3Ih2xMKM9UpmsV57Lpik4bW', '2025-12-21 20:13:13', '0000-00-00 00:00:00', 'perusahaan', '', '', 'Pending'),
+(3, 'malika', 'hrd@perusahaan.com', '$2y$10$Zzd2aJd4nC4tiqRgwmDiCOMiIIQJBJyPoKR1dvAHOBh0l5uYMO0e6', '2025-12-23 14:41:34', '0000-00-00 00:00:00', 'perusahaan', '', '', 'Pending'),
+(4, 'mila', 'mila@gmail.com', '$2a$12$8MIDumtbrCNpSxYF6u0Ue.ehKMbK93Su6JMkR2HCQ9u8uGW2VhQ2y', '2026-01-17 12:20:34', '2026-01-17 12:20:34', 'mahasiswa', 'profile_4_1768658726.jpeg', '00000', 'Verified'),
+(5, 'ti', 'ti@gmail.com', '$2a$12$q81ZrxKM7wiJk76hGLbrzen.R8pDkiyq8TJ920hCB7HJOhtneUhN2', '2026-01-18 02:10:42', '2026-01-18 02:10:42', 'admin_jurusan', '', '00000', ''),
+(6, 'Bhinneka', 'bhinneka@gmail.com', '$2y$10$FrfSC.TvcYHlpdgsZ5GXPOoNckKmVKTkOOVk0WZaA1TVXCiA0.Nea', '2026-01-18 09:37:30', '0000-00-00 00:00:00', 'perusahaan', '', '', 'Pending');
 
-INSERT INTO `perusahaan` (`id_perusahaan`, `id_user`, `nama_perusahaan`, `bidang`, `keterangan`, `foto`, `email`, `no_hp`, `contact_person`, `alamat_perusahaan`, `create_at`) VALUES
-(1, 2, 'PT. Mencari Cinta Sejati', '', '', '', 'mcs@gmail.com', '1234567890', 'ayana', 'Jl. Dr. Moh. Hatta, Binuang Kp.Dalam, Kec. Pauh, Kota Padang, Sumatera Barat 25176', '2025-12-21 20:13:13');
+--
 -- Indexes for dumped tables
 --
 
@@ -144,16 +182,22 @@ ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id_mahasiswa`);
 
 --
+-- Indeks untuk tabel `pengajuan`
+--
+ALTER TABLE `pengajuan`
+  ADD PRIMARY KEY (`id_pengajuan`);
+
+--
 -- Indeks untuk tabel `perusahaan`
 --
 ALTER TABLE `perusahaan`
   ADD PRIMARY KEY (`id_perusahaan`);
 
 --
--- Indeks untuk tabel `unit_kerjasama`
+-- Indeks untuk tabel `prodi`
 --
-ALTER TABLE `unit_kerjasama`
-  ADD PRIMARY KEY (`id_unitkerjasama`);
+ALTER TABLE `prodi`
+  ADD PRIMARY KEY (`id_prodi`);
 
 --
 -- Indeks untuk tabel `users`
@@ -169,31 +213,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `id_jurusan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_jurusan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `pengajuan`
+--
+ALTER TABLE `pengajuan`
+  MODIFY `id_pengajuan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `perusahaan`
 --
 ALTER TABLE `perusahaan`
-  MODIFY `id_perusahaan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_perusahaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `unit_kerjasama`
+-- AUTO_INCREMENT untuk tabel `prodi`
 --
-ALTER TABLE `unit_kerjasama`
-  MODIFY `id_unitkerjasama` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `prodi`
+  MODIFY `id_prodi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
