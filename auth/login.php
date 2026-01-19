@@ -56,8 +56,7 @@ $error = '';
             <button type="submit" class="btn-login">Masuk ke Sistem</button>
             <div style="margin-top: 20px; text-align: center; font-size: 14px; color: #666;">
     Belum memiliki akun? 
-    <a href="../../auth/register_mahasiswa.php" style="color: #059669; font-weight: 600; text-decoration: none;">Sign In Disini</a>
-</div>
+    <a href="register_mahasiswa.php">Daftar</a></div>
         </form>
     </div>
 
