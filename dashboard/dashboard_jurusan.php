@@ -22,7 +22,7 @@ $res_pending = mysqli_query($conn, $q_pending);
 
 // 3. Query Tabel 2: Mahasiswa AKTIF (Sudah Verifikasi)
 // Filter berdasarkan id_jurusan admin & status users = 'Aktif'
-$q_aktif = "SELECT m.*, u.status, p.nama_prodi 
+$q_aktif = "SELECT m.*, u.status, p.nama_prodi , u.email
             FROM mahasiswa m
             JOIN users u ON m.id_user = u.id_user
             JOIN prodi p ON m.id_prodi = p.id_prodi
