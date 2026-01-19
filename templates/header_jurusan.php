@@ -26,12 +26,24 @@ $sudah_isi_data = mysqli_num_rows($cek_jrs) > 0;
             <div class="sidebar-header">
                 <h3><i class="fas fa-university"></i> JURUSAN</h3>
             </div>
+            
             <ul class="sidebar-menu">
-                <li><a href="<?= $base_url; ?>dashboard/dashboard_jurusan.php"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="<?= $base_url; ?>jurusan/register_prodi/data_prodi.php"><i class="fas fa-layer-group"></i> Data Prodi</a></li>
-                <li><a href="<?= $base_url; ?>jurusan/pengajuan_magang.php"><i class="fas fa-user-check"></i> Validasi Magang</a></li>
-                <li><a href="<?= $base_url; ?>jurusan/lihat_profile.php"><i class="fas fa-user-cog"></i> Profil Jurusan</a></li>
-            </ul>
+                <li>
+                    <a href="<?= $base_url; ?>dashboard/dashboard_jurusan.php">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $base_url; ?>jurusan/register_prodi/data_prodi.php">
+                        <i class="fas fa-layer-group"></i> Data Prodi
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $base_url; ?>jurusan/pengajuan_magang.php">
+                        <i class="fas fa-user-check"></i> Validasi Magang
+                    </a>
+                </li>
+                </ul>
 
             <div class="sidebar-footer">
                 <div class="profile-menu-container" id="profileMenu">

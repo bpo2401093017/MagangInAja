@@ -6,9 +6,17 @@ $q_p = mysqli_query($conn, "SELECT id_perusahaan, nama_perusahaan FROM perusahaa
 $d_p = mysqli_fetch_assoc($q_p);
 $id_perusahaan = $d_p['id_perusahaan'];
 
+// --- PERBAIKAN DI SINI ---
+// Hitung lowongan
 $q_lowongan = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM lowongan WHERE id_perusahaan = '$id_perusahaan'"));
-$q_pelamar = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pengajuan WHERE id_perusahaan = '$id_perusahaan' AND status = 'pending'"));
+
+// Hitung pelamar (Ganti 'pending' jadi 'menunggu_verifikasi' sesuai database pengajuan)
+$q_pelamar = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pengajuan WHERE id_perusahaan = '$id_perusahaan' AND status = 'menunggu_verifikasi'"));
+
+// Hitung yang diterima
 $q_aktif = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pengajuan WHERE id_perusahaan = '$id_perusahaan' AND status = 'diterima'"));
+
+// Hitung logbook
 $q_logbook = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM logbook WHERE id_perusahaan = '$id_perusahaan' AND status = 'pending'"));
 ?>
 <link rel="stylesheet" href="<?= $base_url; ?>css/dashboard_new.css">
@@ -23,28 +31,28 @@ $q_logbook = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FR
 
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon icon-blue">💼</div>
+            <div class="stat-icon icon-blue"><i class="fas fa-briefcase"></i></div>
             <div class="stat-info">
                 <h3><?= $q_lowongan['total']; ?></h3>
                 <p>Lowongan Aktif</p>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon icon-orange">📄</div>
+            <div class="stat-icon icon-orange"><i class="fas fa-user-clock"></i></div>
             <div class="stat-info">
                 <h3><?= $q_pelamar['total']; ?></h3>
                 <p>Pelamar Baru</p>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon icon-green">👥</div>
+            <div class="stat-icon icon-green"><i class="fas fa-users"></i></div>
             <div class="stat-info">
                 <h3><?= $q_aktif['total']; ?></h3>
                 <p>Mahasiswa Magang</p>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon icon-red">📝</div>
+            <div class="stat-icon icon-red"><i class="fas fa-book"></i></div>
             <div class="stat-info">
                 <h3><?= $q_logbook['total']; ?></h3>
                 <p>Logbook Pending</p>

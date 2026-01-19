@@ -2,17 +2,18 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../auth/auth_perusahaan.php';
 
+// Cek data perusahaan
 $id_user = $_SESSION['user_id'];
 $cek_prs = mysqli_query($conn, "SELECT id_perusahaan FROM perusahaan WHERE id_user = '$id_user'");
-$sudah_isi_data = mysqli_num_rows($cek_prs) > 0;
-$link_data_prs = $sudah_isi_data ? "data_perusahaan.php" : "form_data_perusahaan.php";
+$data_prs = mysqli_fetch_assoc($cek_prs);
+$id_perusahaan = $data_prs['id_perusahaan'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perusahaan - SIPADEKPNP</title>
+    <title>Dashboard Perusahaan - SIPADEKPNP</title>
     <link rel="stylesheet" href="<?= $base_url; ?>css/perusahaan.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -25,19 +26,38 @@ $link_data_prs = $sudah_isi_data ? "data_perusahaan.php" : "form_data_perusahaan
     <div class="admin-container">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h3><i class="fas fa-building"></i> PERUSAHAAN</h3>
+                <h3><i class="fas fa-building"></i> MITRA INDUSTRI</h3>
             </div>
+            
             <ul class="sidebar-menu">
-                <li><a href="<?= $base_url; ?>dashboard/dashboard_perusahaan.php"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="<?= $base_url; ?>perusahaan/data_perusahaan/<?= $link_data_prs; ?>"><i class="fas fa-edit"></i> Data Perusahaan</a></li>
-                <li><a href="<?= $base_url; ?>perusahaan/lowongan.php"><i class="fas fa-briefcase"></i> Lowongan</a></li>
-                <li><a href="<?= $base_url; ?>perusahaan/pengajuan_magang.php"><i class="fas fa-users"></i> Pelamar</a></li>
-                <li><a href="<?= $base_url; ?>perusahaan/monitoring_mahasiswa.php"><i class="fas fa-chart-line"></i> Monitoring</a></li>
+                <li>
+                    <a href="<?= $base_url; ?>dashboard/dashboard_perusahaan.php">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= $base_url; ?>perusahaan/lowongan.php">
+                        <i class="fas fa-briefcase"></i> Kelola Lowongan
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= $base_url; ?>perusahaan/pengajuan_magang.php">
+                        <i class="fas fa-users"></i> Seleksi Pelamar
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= $base_url; ?>perusahaan/monitoring_mahasiswa.php">
+                        <i class="fas fa-chart-line"></i> Monitoring
+                    </a>
+                </li>
             </ul>
 
             <div class="sidebar-footer">
                 <div class="profile-menu-container" id="profileMenu">
-                    <a href="<?= $base_url; ?>perusahaan/lihat_profile.php">Lihat Profile</a>
+                    <a href="<?= $base_url; ?>perusahaan/lihat_profile.php">Lihat Profil</a>
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 5px 0;">
                     <a href="<?= $base_url; ?>auth/logout.php" style="color: #c62828;">Log Out</a>
                 </div>

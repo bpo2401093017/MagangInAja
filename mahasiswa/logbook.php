@@ -1,74 +1,131 @@
 <?php
-require_once '../auth/auth_mahasiswa.php';
 require_once '../templates/header_mahasiswa.php';
 
+// 1. Ambil ID Mahasiswa
 $id_user = $_SESSION['user_id'];
-$q_mhs = mysqli_query($conn, "SELECT id_mahasiswa FROM mahasiswa WHERE id_user = '$id_user'");
-$d_mhs = mysqli_fetch_assoc($q_mhs);
-$id_mahasiswa = $d_mhs['id_mahasiswa'];
+$q_mhs   = mysqli_query($conn, "SELECT id_mahasiswa FROM mahasiswa WHERE id_user = '$id_user'");
+$d_mhs   = mysqli_fetch_assoc($q_mhs);
+$id_mahasiswa = $d_mhs['id_mahasiswa'] ?? 0;
 
-$q_status = mysqli_query($conn, "SELECT * FROM pengajuan WHERE id_mahasiswa = '$id_mahasiswa' AND status = 'diterima'");
-$is_intern = mysqli_num_rows($q_status) > 0;
-$data_magang = mysqli_fetch_assoc($q_status);
-
-if ($is_intern) {
-    $query = "SELECT * FROM logbook WHERE id_mahasiswa = '$id_mahasiswa' ORDER BY tanggal DESC, created_at DESC";
-    $result = mysqli_query($conn, $query);
-}
+// 2. Query Logbook
+$query = "SELECT * FROM logbook WHERE id_mahasiswa = '$id_mahasiswa' ORDER BY tanggal DESC";
+$result = mysqli_query($conn, $query);
 ?>
-<link rel="stylesheet" href="<?= $base_url; ?>css/logbook.css">
+
+<link rel="stylesheet" href="../css/logbook.css">
 
 <div class="main-content">
-    <?php if (!$is_intern): ?>
-        <div class="empty-state">
-            <img src="https://img.icons8.com/ios/100/cccccc/lock.png" alt="Locked">
-            <h3>Fitur Terkunci</h3>
-            <p>Menu Logbook hanya tersedia untuk mahasiswa yang sudah <b>DITERIMA</b> magang.</p>
+    
+    <div class="logbook-header">
+        <div>
+            <h2>Buku Harian Kegiatan</h2>
+            <p>Catat aktivitas magang Anda setiap hari.</p>
         </div>
-    <?php else: ?>
-        
-        <div class="logbook-header">
-            <div>
-                <h2>Logbook Kegiatan Magang</h2>
-                <p>Lokasi: <b><?= htmlspecialchars($data_magang['nama_perusahaan']); ?></b></p>
-            </div>
-            <a href="tambah_logbook.php" class="btn-add-log">+ Catat Kegiatan Hari Ini</a>
-        </div>
+        <a href="tambah_logbook.php" class="btn-add">
+            <i class="fas fa-plus"></i> Tulis Logbook
+        </a>
+    </div>
 
-        <div class="timeline-container">
-            <?php if (mysqli_num_rows($result) > 0): ?>
-                <?php while($row = mysqli_fetch_assoc($result)): ?>
-                    <div class="log-card <?= ($row['status'] == 'disetujui') ? 'approved' : 'pending'; ?>">
-                        <div class="log-header">
-                            <div class="log-date">
-                                📅 <?= date('l, d F Y', strtotime($row['tanggal'])); ?>
-                            </div>
-                            <span class="status-tag tag-<?= ($row['status'] == 'disetujui') ? 'approved' : 'pending'; ?>">
-                                <?= ($row['status'] == 'disetujui') ? 'Disetujui Mentor' : 'Menunggu Persetujuan'; ?>
-                            </span>
-                        </div>
-                        <div class="log-body">
-                            <div class="log-content">
-                                <?= nl2br(htmlspecialchars($row['kegiatan'])); ?>
-                            </div>
-                            <?php if ($row['dokumentasi']): ?>
-                                <div class="log-img-box">
-                                    <a href="<?= $base_url; ?>uploads/logbook/<?= $row['dokumentasi']; ?>" target="_blank">
-                                        <img src="<?= $base_url; ?>uploads/logbook/<?= $row['dokumentasi']; ?>" class="log-img" alt="Dokumentasi">
-                                    </a>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <div class="empty-state">
-                    <p>Belum ada catatan kegiatan. Mulai isi logbook hari pertamamu!</p>
-                </div>
-            <?php endif; ?>
-        </div>
+    <div class="table-container">
+        <div class="table-responsive">
+            <table class="table-logbook">
+                <thead>
+                    <tr>
+                        <th width="5%">No</th>
+                        <th width="15%">Tanggal</th>
+                        <th width="40%">Kegiatan</th>
+                        <th width="15%">Dokumentasi</th>
+                        <th width="15%">Status</th>
+                        <th width="10%" style="text-align: center;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (mysqli_num_rows($result) > 0): ?>
+                        <?php $no = 1; while($row = mysqli_fetch_assoc($result)): ?>
+                            <tr>
+                                <td style="text-align: center;"><?= $no++; ?></td>
+                                
+                                <td>
+                                    <b><?= date('d M Y', strtotime($row['tanggal'])); ?></b>
+                                </td>
+                                
+                                <td style="line-height: 1.6;">
+                                    <?php 
+                                        // Cek ketersediaan kolom untuk menghindari error undefined
+                                        $isi_kegiatan = $row['kegiatan'] ?? $row['deskripsi'] ?? '-';
+                                        echo nl2br(htmlspecialchars($isi_kegiatan)); 
+                                    ?>
+                                </td>
 
-    <?php endif; ?>
+                                <td style="text-align: center;">
+                                    <?php if (!empty($row['dokumentasi'])): ?>
+                                        <img src="<?= $base_url; ?>img/logbook/<?= $row['dokumentasi']; ?>" 
+                                             class="thumb-img" 
+                                             onclick="viewImage(this.src)"
+                                             alt="Bukti">
+                                    <?php else: ?>
+                                        <span style="font-size: 12px; color: #999;">-</span>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td>
+                                    <?php 
+                                        $st = $row['status'];
+                                        if($st == 'approved') echo '<span class="badge badge-approve">Disetujui</span>';
+                                        else if($st == 'rejected') echo '<span class="badge badge-reject">Ditolak</span>';
+                                        else echo '<span class="badge badge-pending">Menunggu</span>';
+                                    ?>
+                                </td>
+
+                                <td style="text-align: center;">
+                                    <?php if ($st == 'pending'): ?>
+                                        <a href="proses_logbook.php?aksi=hapus&id=<?= $row['id_logbook']; ?>" 
+                                           class="btn-delete"
+                                           onclick="return confirm('Hapus catatan ini?')">
+                                           <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <i class="fas fa-lock" style="color: #ccc;" title="Terkunci"></i>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: #999;">
+                                Belum ada catatan kegiatan.
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<div id="imageModal" class="modal-img">
+    <span class="close-img" onclick="closeModal()">&times;</span>
+    <img class="modal-content-img" id="imgFull">
+</div>
+
+<script>
+    function viewImage(src) {
+        document.getElementById('imgFull').src = src;
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+
+    // Tutup jika klik luar gambar
+    window.onclick = function(event) {
+        var modal = document.getElementById('imageModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+</script>
+
 </body>
 </html>

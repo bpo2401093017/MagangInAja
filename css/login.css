@@ -1,136 +1,137 @@
 body.login-page {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f7f6;
+    background-color: #E8F5E9; 
+    font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    margin: 0;
+    position: relative; /* Penting untuk konteks */
 }
 
 .login-card {
-    background: white;
+    background: #FFFFFF;
     width: 100%;
-    max-width: 400px;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    position: relative;
-}
-
-.login-header {
+    max-width: 450px; 
+    padding: 3rem 2.5rem;
+    border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(46, 139, 71, 0.05);
     text-align: center;
-    margin-bottom: 30px;
+    position: relative;
+    z-index: 10;
 }
 
 .login-header h2 {
-    color: #2E8B47;
-    font-size: 28px;
-    font-weight: 800;
-    margin: 0 0 10px;
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
 }
 
 .login-header p {
-    color: #666;
-    font-size: 14px;
-    margin: 0;
+    color: #999;
+    font-size: 0.9rem;
+    margin-bottom: 2.5rem;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
+    text-align: left;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
     color: #333;
-    font-weight: 600;
-    font-size: 14px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .input-wrapper {
-    position: relative;
+    background-color: #F5F7F9; 
+    border-radius: 8px;
+    padding: 12px 15px;
     display: flex;
     align-items: center;
-}
-
-/* INPUT TANPA ICON */
-.input-wrapper input {
-    width: 100%;
-    padding: 12px 15px; /* Padding normal tanpa space untuk icon */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
     transition: 0.3s;
-    outline: none;
-    background: #fafafa;
 }
 
-.input-wrapper input:focus {
-    border-color: #2E8B47;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(46, 139, 71, 0.1);
+.input-wrapper:focus-within {
+    background-color: #fff;
+    box-shadow: 0 0 0 2px #2E8B47;
+}
+
+.input-icon {
+    width: 20px;
+    height: 20px;
+    stroke: #2E8B47;
+    margin-right: 12px;
+}
+
+.form-group input {
+    background: transparent;
+    border: none;
+    width: 100%;
+    font-size: 1rem;
+    color: #333;
+    outline: none;
 }
 
 .btn-login {
-    width: 100%;
-    padding: 14px;
-    background: #2E8B47;
+    background-color: #4CAF50; 
     color: white;
+    width: 100%;
+    padding: 15px;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
-    margin-top: 10px;
+    margin-top: 1rem;
+    transition: background 0.3s;
 }
 
 .btn-login:hover {
-    background: #236c36;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(46, 139, 71, 0.2);
+    background-color: #388E3C;
 }
 
 .alert {
-    background: #ffebee;
-    color: #c62828;
     padding: 12px;
+    background-color: #ffebee;
+    color: #c62828;
     border-radius: 8px;
-    font-size: 13px;
     margin-bottom: 20px;
-    border: 1px solid #ffcdd2;
+    font-size: 0.9rem;
     text-align: center;
 }
 
-.btn-home {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+/* TOMBOL KEMBALI FIXED (Anti Geser) */
+.btn-home-fixed {
+    position: fixed; /* Kunci posisi di layar */
+    top: 25px;
+    left: 25px; /* Posisi di Kiri Atas */
+    z-index: 1000;
     text-decoration: none;
-    color: #2E8B47;
-    font-weight: bold;
-    font-size: 14px;
-    display: block;
-    padding: 8px 15px;
     background: white;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: 0.3s;
-}
-
-.btn-home:hover {
-    transform: translateX(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-a {
     color: #2E8B47;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-weight: 700;
+    font-size: 14px;
     transition: 0.3s;
+    border: 1px solid #e8f5e9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-a:hover {
-    color: #1b5e20;
+.btn-home-fixed:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    background-color: #2E8B47;
+    color: white;
+    border-color: #2E8B47;
 }

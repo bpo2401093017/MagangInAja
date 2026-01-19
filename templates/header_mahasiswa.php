@@ -1,15 +1,11 @@
 <?php
-// Pastikan config sudah menyertakan session_start() dan variabel $base_url
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../auth/auth_mahasiswa.php';
 
-// --- LOGIKA PENGECEKAN DATA MAHASISWA ---
+// Cek status pengisian data (untuk keperluan redirect jika dibutuhkan di halaman lain)
 $id_user = $_SESSION['user_id'];
 $cek_mhs = mysqli_query($conn, "SELECT id_mahasiswa FROM mahasiswa WHERE id_user = '$id_user'");
 $sudah_isi_data = mysqli_num_rows($cek_mhs) > 0;
-
-// Tentukan link tujuan
-$link_data_mhs = $sudah_isi_data ? "data_mahasiswa.php" : "form_data_mahasiswa.php";
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -41,24 +37,21 @@ $link_data_mhs = $sudah_isi_data ? "data_mahasiswa.php" : "form_data_mahasiswa.p
                        <i class="fas fa-home"></i> Dashboard
                     </a>
                 </li>
-                <li>
-                    <a href="<?= $base_url; ?>mahasiswa/data_mahasiswa/<?= $link_data_mhs; ?>"
-                       class="<?= (basename($_SERVER['PHP_SELF']) == 'data_mahasiswa.php' || basename($_SERVER['PHP_SELF']) == 'form_data_mahasiswa.php') ? 'active' : ''; ?>">
-                       <i class="fas fa-user-edit"></i> Data Diri
-                    </a>
-                </li>
+
                 <li>
                     <a href="<?= $base_url; ?>mahasiswa/lowongan.php"
                        class="<?= basename($_SERVER['PHP_SELF']) == 'lowongan.php' ? 'active' : ''; ?>">
                        <i class="fas fa-search"></i> Cari Lowongan
                     </a>
                 </li>
+
                 <li>
                     <a href="<?= $base_url; ?>mahasiswa/riwayat_lamaran.php"
                        class="<?= basename($_SERVER['PHP_SELF']) == 'riwayat_lamaran.php' ? 'active' : ''; ?>">
                        <i class="fas fa-history"></i> Riwayat Lamaran
                     </a>
                 </li>
+
                 <li>
                     <a href="<?= $base_url; ?>mahasiswa/logbook.php"
                        class="<?= basename($_SERVER['PHP_SELF']) == 'logbook.php' ? 'active' : ''; ?>">
@@ -100,7 +93,6 @@ $link_data_mhs = $sudah_isi_data ? "data_mahasiswa.php" : "form_data_mahasiswa.p
                 document.getElementById('profileMenu').classList.toggle('active');
             }
 
-            // Tutup menu jika klik di luar
             window.onclick = function(event) {
                 if (!event.target.closest('.sidebar-footer')) {
                     document.getElementById('profileMenu').classList.remove('active');

@@ -2,41 +2,45 @@
 require_once "../../config.php";
 
 if (isset($_POST['submit'])) {
+    // 1. Tangkap Data
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     
-    // Pastikan nama variabel sesuai dengan input name di form
     $nama_jurusan = mysqli_real_escape_string($conn, $_POST['nama_jurusan']);
+    $email        = mysqli_real_escape_string($conn, $_POST['email']);
+    $no_hp        = mysqli_real_escape_string($conn, $_POST['no_hp']);
     
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']);
-    
-    // Karena input kode dihilangkan, kita beri nilai default strip (-)
+    // Kode Jurusan default strip (-)
     $kode = '-';
 
-    // 1. Simpan ke tabel users
+    // 2. Insert ke tabel USERS
     $query_user = "INSERT INTO users (username, email, password, roles, no_hp, created_at) 
                    VALUES ('$username', '$email', '$password', 'admin_jurusan', '$no_hp', NOW())";
     
     if (mysqli_query($conn, $query_user)) {
         $id_user = mysqli_insert_id($conn);
 
-        // 2. Simpan ke tabel jurusan
+        // 3. Insert ke tabel JURUSAN
         $query_jurusan = "INSERT INTO jurusan (id_user, nama_jurusan, kode) 
                           VALUES ('$id_user', '$nama_jurusan', '$kode')";
         
         if (mysqli_query($conn, $query_jurusan)) {
-            // Berhasil, kembali ke halaman data perusahaan (atau data jurusan jika ada halamannya sendiri)
-            header("Location: ../data_perusahaan.php?status=success");
+            // SUKSES -> Redirect ke Data Master
+            header("Location: ../data_perusahaan.php?status=success_jurusan");
+            exit;
         } else {
-            // Jika gagal insert jurusan, hapus user yang terlanjur dibuat agar bersih
+            // GAGAL JURUSAN -> Hapus User (Rollback)
             mysqli_query($conn, "DELETE FROM users WHERE id_user = '$id_user'");
-            header("Location: register.php?status=failed_jurusan");
+            header("Location: register_jurusan.php?status=failed_jurusan");
+            exit;
         }
     } else {
-        header("Location: register.php?status=failed_user");
+        // GAGAL USER (Username/Email Kembar)
+        header("Location: register_jurusan.php?status=failed_user");
+        exit;
     }
 } else {
-    header("Location: register.php");
+    header("Location: register_jurusan.php");
+    exit;
 }
 ?>

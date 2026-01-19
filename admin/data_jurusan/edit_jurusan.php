@@ -1,87 +1,99 @@
 <?php
-require_once '../../config.php';
-require_once '../../templates/header_admin.php';
+require_once "../../config.php";
+require_once "../../templates/header_admin.php"; 
 
-// Pastikan ID ada di URL
+// 1. Cek apakah ada ID di URL
 if (!isset($_GET['id'])) {
-    header("Location: data_perusahaan.php");
+    header("Location: ../data_perusahaan.php");
     exit;
 }
 
-$id = mysqli_real_escape_string($conn, $_GET['id']);
-$query = mysqli_query($conn, "SELECT * FROM jurusan JOIN users u ON jurusan.id_user = u.id_user WHERE id_jurusan = '$id'");
-$data = mysqli_fetch_assoc($query);
+$id_jurusan = mysqli_real_escape_string($conn, $_GET['id']);
 
-// Jika data tidak ditemukan
+// 2. Ambil Data Jurusan & User sekaligus (JOIN)
+$query = "SELECT j.*, u.username, u.email, u.no_hp 
+          FROM jurusan j 
+          JOIN users u ON j.id_user = u.id_user 
+          WHERE j.id_jurusan = '$id_jurusan'";
+
+$result = mysqli_query($conn, $query);
+$data = mysqli_fetch_assoc($result);
+
 if (!$data) {
-    echo "<script>alert('Data tidak ditemukan!'); window.location='data_perusahaan.php';</script>";
+    echo "<script>alert('Data tidak ditemukan!'); window.location='../data_perusahaan.php';</script>";
     exit;
 }
 ?>
 
-<link rel="stylesheet" href="<?= $base_url; ?>css/data_perusahaan.css">
-
-<main class="main-content">
-    <div class="form-container">
-        
-        <div class="form-header">
-            <div>
-                <h2>Edit Profil Jurusan</h2>
-                <p>Perbarui informasi utama jurusan SIPADEKPNP</p>
-            </div>
-            <div class="header-icon" style="background: #fff3e0; padding: 12px; border-radius: 12px;">
-                <svg width="32" height="32" fill="none" stroke="#FFA000" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-            </div>
+<div class="main-content">
+    
+    <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+            <h2 style="color: #2E8B47; margin: 0;">Edit Data Jurusan</h2>
+            <p style="color: #666; margin: 5px 0 0;">Perbarui informasi akun dan profil jurusan.</p>
         </div>
+        <a href="../data_perusahaan.php" style="background: #fff; color: #333; padding: 10px 20px; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; font-weight: bold;">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </div>
 
+    <div class="dashboard-card" style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+        
         <form action="proses_edit_jurusan.php" method="POST">
             <input type="hidden" name="id_jurusan" value="<?= $data['id_jurusan']; ?>">
+            <input type="hidden" name="id_user" value="<?= $data['id_user']; ?>">
 
-            <div class="section-title">Detail Jurusan</div>
+            <h4 style="color: #2E8B47; margin-bottom: 20px; border-bottom: 2px solid #e8f5e9; padding-bottom: 10px;">
+                <i class="fas fa-user-cog"></i> Informasi Akun
+            </h4>
 
-            <div class="form-grid">
-                <div class="input-box full-width">
-                    <label>Nama Jurusan</label>
-                    <div class="input-field">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                        <input type="text" name="nama_jurusan" value="<?= htmlspecialchars($data['nama_jurusan']); ?>" required>
-                    </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;">
+                <div>
+                    <label style="display: block; font-weight: bold; margin-bottom: 8px;">Username (Tidak bisa diubah)</label>
+                    <input type="text" value="<?= htmlspecialchars($data['username']); ?>" readonly 
+                           style="width: 100%; padding: 12px; border: 1px solid #ddd; background: #eee; color: #777; border-radius: 8px;">
                 </div>
-
-                <div class="input-box">
-                    <label>Email Resmi</label>
-                    <div class="input-field">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        <input type="email" name="email" value="<?= htmlspecialchars($data['email']); ?>" required>
-                    </div>
-                </div>
-
-                <div class="input-box">
-                    <label>No. Telepon / WhatsApp</label>
-                    <div class="input-field">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        <input type="text" name="no_hp" value="<?= htmlspecialchars($data['no_hp']); ?>" required>
-                    </div>
-                </div>
-
-                <div class="input-box full-width">
-                    <label>Kode Jurusan </label>
-                    <div class="input-field">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                        <input type="text" name="kode" value="<?= htmlspecialchars($data['kode']); ?>" required>
-                    </div>
+                <div>
+                    <label style="display: block; font-weight: bold; margin-bottom: 8px;">Password Baru (Opsional)</label>
+                    <input type="password" name="password" placeholder="Isi jika ingin ganti password" 
+                           style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
                 </div>
             </div>
 
-            <div style="margin-top: 40px; display: flex; gap: 15px;">
-                <button type="submit" name="update" class="btn-submit" style="margin-top: 0; flex: 2;">Simpan Perubahan</button>
-                <a href="../data_perusahaan.php" class="btn-theme-white" style="flex: 1; display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 15px; font-weight: 700;">Batal</a>
+            <h4 style="color: #2E8B47; margin-bottom: 20px; border-bottom: 2px solid #e8f5e9; padding-bottom: 10px;">
+                <i class="fas fa-university"></i> Detail Jurusan
+            </h4>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px;">Nama Jurusan</label>
+                <input type="text" name="nama_jurusan" value="<?= htmlspecialchars($data['nama_jurusan']); ?>" required 
+                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
             </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;">
+                <div>
+                    <label style="display: block; font-weight: bold; margin-bottom: 8px;">Email Resmi</label>
+                    <input type="email" name="email" value="<?= htmlspecialchars($data['email']); ?>" required 
+                           style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold; margin-bottom: 8px;">No. Telepon / WA</label>
+                    <input type="text" name="no_hp" value="<?= htmlspecialchars($data['no_hp']); ?>" required 
+                           style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <button type="submit" name="update" style="background: #2E8B47; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-save"></i> Simpan Perubahan
+                </button>
+                <a href="../data_perusahaan.php" style="background: #f3f4f6; color: #333; padding: 12px 30px; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; font-weight: bold;">
+                    Batal
+                </a>
+            </div>
+
         </form>
     </div>
-</main>
-
-</div> </body>
+</div>
+</body>
 </html>

@@ -2,41 +2,58 @@
 session_start();
 require_once '../config.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'mahasiswa') {
+// 1. Cek Login
+if (!isset($_SESSION['user_id'])) {
     header("Location: ../auth/login.php");
     exit;
 }
 
-if (isset($_POST['lamar'])) {
-    $id_user = $_SESSION['user_id'];
+// 2. Cek apakah ada ID Lowongan yang dikirim
+if (isset($_GET['id_lowongan'])) {
     
+    $id_lowongan = mysqli_real_escape_string($conn, $_GET['id_lowongan']);
+    $id_user = $_SESSION['user_id'];
+
+    // 3. Ambil ID Mahasiswa yang Benar
     $q_mhs = mysqli_query($conn, "SELECT id_mahasiswa FROM mahasiswa WHERE id_user = '$id_user'");
     $d_mhs = mysqli_fetch_assoc($q_mhs);
-    $id_mahasiswa = $d_mhs['id_mahasiswa'];
 
-    $id_lowongan = mysqli_real_escape_string($conn, $_POST['id_lowongan']);
-    $id_perusahaan = mysqli_real_escape_string($conn, $_POST['id_perusahaan']);
-    $nama_perusahaan = mysqli_real_escape_string($conn, $_POST['nama_perusahaan']);
-    $alamat_perusahaan = mysqli_real_escape_string($conn, $_POST['alamat_perusahaan']);
-
-    $cek_double = mysqli_query($conn, "SELECT id_pengajuan FROM pengajuan 
-                                       WHERE id_mahasiswa = '$id_mahasiswa' 
-                                       AND status NOT IN ('ditolak', 'verifikasi_ditolak')");
-    
-    if (mysqli_num_rows($cek_double) > 0) {
-        echo "<script>alert('Gagal! Anda masih memiliki lamaran yang sedang diproses.'); window.location='riwayat_lamaran.php';</script>";
+    if (!$d_mhs) {
+        echo "<script>alert('Lengkapi Biodata Mahasiswa Dulu!'); window.location='lihat_profile.php';</script>";
         exit;
     }
 
-    $query = "INSERT INTO pengajuan (id_mahasiswa, id_perusahaan, id_lowongan, nama_perusahaan, alamat_perusahaan, status, jenis, create_at) 
-              VALUES ('$id_mahasiswa', '$id_perusahaan', '$id_lowongan', '$nama_perusahaan', '$alamat_perusahaan', 'menunggu_verifikasi', 'lowongan', NOW())";
+    $id_mahasiswa = $d_mhs['id_mahasiswa'];
 
-    if (mysqli_query($conn, $query)) {
-        header("Location: riwayat_lamaran.php?msg=success");
-    } else {
-        echo "Error: " . mysqli_error($conn);
+    // 4. Cek apakah sudah pernah melamar lowongan ini? (Agar tidak dobel)
+    $cek_dobel = mysqli_query($conn, "SELECT id_lamaran FROM lamaran WHERE id_mahasiswa = '$id_mahasiswa' AND id_lowongan = '$id_lowongan'");
+    
+    if (mysqli_num_rows($cek_dobel) > 0) {
+        echo "<script>
+            alert('Anda sudah pernah melamar posisi ini sebelumnya.');
+            window.location = 'riwayat_lamaran.php';
+        </script>";
+        exit;
     }
+
+    // 5. INSERT DATA REAL KE DATABASE
+    // Status default = pending
+    $query_insert = "INSERT INTO lamaran (id_mahasiswa, id_lowongan, tgl_lamar, status) 
+                     VALUES ('$id_mahasiswa', '$id_lowongan', NOW(), 'pending')";
+
+    if (mysqli_query($conn, $query_insert)) {
+        // SUKSES
+        echo "<script>
+            alert('Berhasil Melamar! Lamaran Anda telah dikirim ke perusahaan.');
+            window.location = 'riwayat_lamaran.php';
+        </script>";
+    } else {
+        // GAGAL INSERT
+        echo "Error Database: " . mysqli_error($conn);
+    }
+
 } else {
+    // Tidak ada ID Lowongan
     header("Location: lowongan.php");
 }
 ?>
