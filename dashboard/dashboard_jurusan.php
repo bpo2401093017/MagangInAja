@@ -27,7 +27,7 @@ $q_aktif = "SELECT m.*, u.status, p.nama_prodi
             JOIN users u ON m.id_user = u.id_user
             JOIN prodi p ON m.id_prodi = p.id_prodi
             WHERE p.id_jurusan = '$id_jurusan_session' 
-            AND u.status = 'Aktif'
+            AND u.status = 'Verified'
             ORDER BY m.nama_lengkap ASC";
 $res_aktif = mysqli_query($conn, $q_aktif);
 
@@ -76,12 +76,15 @@ $total_aktif = mysqli_num_rows($res_aktif);
                                 <i class="fas fa-phone"></i> <?= $row['no_hp']; ?>
                             </td>
                             <td class="text-center">
-                                <a href="../jurusan/proses_verifikasi.php?id=<?= $row['id_user']; ?>" 
-                                   class="btn-action btn-verify"
-                                   onclick="return confirm('Apakah data mahasiswa ini (<?= $row['nama_lengkap']; ?>) VALID?')">
-                                    <i class="fas fa-check"></i> Verifikasi
-                                </a>
-                            </td>
+                                    <form method="POST" action="../jurusan/proses_verifikasi.php">
+                                        <input type="hidden" name="id_user" value="<?= $row['id_user']; ?>">
+                                        <button type="submit" 
+                                                class="btn-action btn-verify" 
+                                                onclick="return confirm('Apakah data mahasiswa ini (<?= htmlspecialchars($row['nama_lengkap']); ?>) VALID?')">
+                                            <i class="fas fa-check"></i> Verifikasi
+                                        </button>
+                                    </form>
+                                </td>
                         </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
