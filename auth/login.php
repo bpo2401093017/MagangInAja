@@ -12,7 +12,9 @@ $error = '';
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body class="login-page">
-    
+    <div style="position: absolute; top: 20px; right: 20px;">
+        <a href="../index.php" class="btn-theme-white" style="padding: 10px 20px; text-decoration: none; border-radius: 8px; border: 1px solid #ddd;">Ke Beranda</a>
+    </div>
 
     <div class="login-card">
         <div class="login-header">
@@ -52,6 +54,10 @@ $error = '';
             </div>
 
             <button type="submit" class="btn-login">Masuk ke Sistem</button>
+            <div style="margin-top: 20px; text-align: center; font-size: 14px; color: #666;">
+    Belum memiliki akun? 
+    <a href="../../auth/register_mahasiswa.php" style="color: #059669; font-weight: 600; text-decoration: none;">Sign In Disini</a>
+</div>
         </form>
     </div>
 

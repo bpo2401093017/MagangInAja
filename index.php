@@ -34,10 +34,6 @@ require_once 'config.php';
             </div>
 
            <div class="nav-auth" style="display: flex; gap: 10px; align-items: center;">
-    
-    <a href="auth/login.php" class="btn-signin" style="color: white; text-decoration: none; font-weight: 600; padding: 10px 20px;">
-        Sign In
-    </a>
 
     <a href="auth/login.php" class="btn-login" style="background-color: white; color: #059669; padding: 10px 25px; border-radius: 50px; text-decoration: none; font-weight: bold;">
         Login
