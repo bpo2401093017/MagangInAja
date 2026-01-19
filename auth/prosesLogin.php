@@ -14,54 +14,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (password_verify($password, $user['password'])) {
             
-            
-            // Set session jika verifikasi lolos
+            if ($user['roles'] === 'mahasiswa') {
+                if ($user['status'] === 'Pending') {
+                    header("Location: {$base_url}auth/login.php?error=" . urlencode("Akun Anda sedang dalam proses verifikasi oleh Admin Jurusan."));
+                    exit;
+                } elseif ($user['status'] === 'Rejected') {
+                    header("Location: {$base_url}auth/login.php?error=" . urlencode("Registrasi Anda ditolak. Silakan hubungi Jurusan."));
+                    exit;
+                }
+            }
+
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['roles'];
             $_SESSION['foto'] = $user['foto'];
 
-            // --- LOGIKA VERIFIKASI MAHASISWA ---
-          
-            // -----------------------------------
-
-
-            // Redirect sesuai role
-            if ($user['roles'] === 'super_admin') {
-                header("Location: {$base_url}dashboard/dashboard_admin.php");
-                exit;
-            } else if ($user['roles'] === 'perusahaan') {
-                header("Location: {$base_url}dashboard/dashboard_perusahaan.php");
-                exit;
-            } else if ($user['roles'] === 'admin_jurusan') {
-                header("Location: {$base_url}dashboard/dashboard_jurusan.php");
-                exit;
-            }  else if ($user['roles'] === 'mahasiswa') {
-                    // Pastikan besar kecil huruf 'Verified' sesuai dengan di Database (case sensitive)
-                    if ($user['status'] !== 'Verified') {
-                        $pesan = ($user['status'] === 'Rejected') ? "Akun Anda ditolak." : "Akun Anda belum diverifikasi oleh Admin Jurusan.";
-                        header("Location: {$base_url}auth/login.php?error=" . urlencode($pesan));
-                        exit;
-                    }
-                    // Jika lolos verifikasi, redirect ke dashboard
+            switch ($user['roles']) {
+                case 'super_admin':
+                    header("Location: {$base_url}dashboard/dashboard_admin.php");
+                    break;
+                case 'perusahaan':
+                    header("Location: {$base_url}dashboard/dashboard_perusahaan.php");
+                    break;
+                case 'admin_jurusan':
+                    header("Location: {$base_url}dashboard/dashboard_jurusan.php");
+                    break;
+                case 'mahasiswa':
                     header("Location: {$base_url}dashboard/dashboard_mahasiswa.php");
-                    exit;
-                }  else {
-                    $pesan = "Role tidak dikenali!";
-                header("Location: {$base_url}auth/login.php?error=" . urlencode($pesan));
-                exit;
-                }  
+                    break;
+                default:
+                    session_destroy();
+                    header("Location: {$base_url}auth/login.php?error=" . urlencode("Role tidak dikenali!"));
+                    break;
+            }
+            exit;
             
         } else {
-            $pesan = "Password salah!";
-            header("Location: {$base_url}auth/login.php?error=" . urlencode($pesan));
+            header("Location: {$base_url}auth/login.php?error=" . urlencode("Password salah!"));
             exit;
         }
     } else {
-        $pesan = "Akun tidak ditemukan!";
-        header("Location: {$base_url}auth/login.php?error=" . urlencode($pesan));
+        header("Location: {$base_url}auth/login.php?error=" . urlencode("Username tidak ditemukan!"));
         exit;
     }
-    
+} else {
+    header("Location: {$base_url}auth/login.php");
+    exit;
 }
 ?>

@@ -1,131 +1,70 @@
 :root {
-    --primary-green: #2E8B47;
-    --sidebar-width: 250px;
+    --primary-color: #2E8B47;
+    --sidebar-width: 260px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body {
+    margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: #F4F6F9;
+}
 
-body { background-color: #f4f7f6; display: flex; }
+.admin-container {
+    display: flex; min-height: 100vh; position: relative; overflow-x: hidden;
+}
 
-/* SIDEBAR LAYOUT */
+/* SIDEBAR */
 .sidebar {
     width: var(--sidebar-width);
-    background: var(--primary-green);
-    height: 100vh;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
+    background-color: var(--primary-color);
     color: white;
-    z-index: 1000;
+    display: flex; flex-direction: column;
+    position: fixed; height: 100vh; z-index: 1000;
+    transition: 0.3s; left: 0; top: 0;
 }
 
 .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sidebar-header h3 { margin: 0; font-size: 1.2rem; }
 
-.sidebar-menu { list-style: none; padding: 20px 0; flex-grow: 1; }
+.sidebar-menu { list-style: none; padding: 20px 0; margin: 0; overflow-y: auto; }
+.sidebar-menu li a { display: block; padding: 15px 25px; color: rgba(255,255,255,0.9); text-decoration: none; transition: 0.3s; }
+.sidebar-menu li a:hover, .sidebar-menu li a.active { background: rgba(0,0,0,0.1); border-left: 4px solid #fff; }
 
-.sidebar-menu li a {
-    padding: 15px 25px;
-    display: block;
-    color: rgba(255,255,255,0.8);
-    text-decoration: none;
-    transition: 0.3s;
-}
+.sidebar-footer { margin-top: auto; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.05); }
+.user-profile-toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.mini-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white; }
+.user-details { font-size: 13px; display: flex; flex-direction: column; }
+.user-name { font-weight: bold; }
 
-.sidebar-menu li a:hover, .sidebar-menu li a.active {
-    background: rgba(255,255,255,0.1);
-    color: white;
-    padding-left: 35px;
-}
-
-/* FOOTER / PROFILE SECTION */
-.sidebar-footer {
-    position: relative;
-    padding: 15px;
-    background: rgba(0,0,0,0.1);
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.user-profile-toggle {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.user-profile-toggle:hover { background: rgba(255,255,255,0.1); }
-
-.mini-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; }
-
-.user-details { flex: 1; overflow: hidden; }
-
-.user-name { display: block; font-size: 14px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; }
-
-.user-role { font-size: 11px; opacity: 0.7; }
-
-.chevron-icon { font-size: 10px; transition: 0.3s; }
-
-/* POPUP MENU */
-.profile-menu-container {
-    position: absolute;
-    bottom: 85px;
-    left: 15px;
-    right: 15px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    display: none; /* Sembunyi secara default */
-    flex-direction: column;
-    padding: 10px 0;
-    overflow: hidden;
-}
-
-.profile-menu-container.active { display: flex; animation: slideUp 0.3s ease; }
-
-.profile-menu-container a {
-    padding: 12px 20px;
-    color: #333;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.profile-menu-container a:hover { background: #f4f4f4; color: var(--primary-green); }
-
-.profile-menu-container hr { border: none; border-top: 1px solid #eee; margin: 5px 0; }
-
-@keyframes slideUp {
-    from { transform: translateY(10px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* 1. Pastikan container utama memenuhi tinggi layar */
-.admin-container {
-    display: flex;
-    min-height: 100vh;
-}
-
-/* 2. Main content harus Flexbox agar bisa mendorong footer */
+/* MAIN CONTENT */
 .main-content {
-    margin-left: 250px; /* Lebar sidebar */
-    flex: 1;
-    display: flex;
-    flex-direction: column; /* Konten disusun dari atas ke bawah */
-    min-height: 100vh;      /* Tinggi minimal seukuran layar monitor */
-    padding: 40px;
-    box-sizing: border-box;
+    margin-left: var(--sidebar-width);
+    flex: 1; padding: 30px; width: calc(100% - var(--sidebar-width)); transition: 0.3s;
 }
 
-/* 3. Atur Footer agar di bawah kali dan di tengah */
-.footer {
-    margin-top: auto;    /* KUNCI: Mendorong footer ke paling bawah layar */
-    text-align: center;  /* KUNCI: Membuat teks ke tengah */
-    padding: 30px 0;     /* Memberi jarak atas dan bawah */
-    width: 100%;
-    color: #888;
-    font-size: 14px;
-    border-top: 1px solid #eee; /* Garis tipis opsional agar rapi */
+/* MOBILE TOGGLE */
+.mobile-toggle {
+    display: none; position: fixed; top: 15px; left: 15px; z-index: 1100;
+    background: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 5px; font-size: 20px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
+.overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 900;
+}
+
+/* MEDIA QUERY */
+@media screen and (max-width: 992px) {
+    .mobile-toggle { display: block; }
+    .sidebar { left: -100%; width: 260px; }
+    .sidebar.active { left: 0; box-shadow: 5px 0 15px rgba(0,0,0,0.3); }
+    .main-content { margin-left: 0; width: 100%; padding: 20px; padding-top: 80px; }
+    .sidebar.active + .overlay { display: block; }
+}
+
+/* POPUP MENU PROFILE */
+.profile-menu-container {
+    position: absolute; bottom: 85px; left: 15px; right: 15px;
+    background: white; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: none; flex-direction: column; padding: 10px 0; overflow: hidden; z-index: 1002;
+}
+.profile-menu-container.active { display: flex; }
+.profile-menu-container a { padding: 12px 20px; color: #333; text-decoration: none; font-size: 14px; }
+.profile-menu-container a:hover { background: #f4f4f4; color: var(--primary-color); }

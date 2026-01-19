@@ -1,124 +1,149 @@
-/* Admin Dashboard Stylesheet */
+:root {
+    --primary-color: #2E8B47;
+    --sidebar-width: 260px;
+    --text-light: #f4f6f8;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F4F6F9;
+}
+
+/* LAYOUT UTAMA */
 .admin-container {
     display: flex;
     min-height: 100vh;
-    background-color: #F9FAFB;
+    position: relative;
+    overflow-x: hidden;
 }
 
+/* SIDEBAR DESKTOP */
 .sidebar {
-    width: 260px;
-    background-color: #2E8B47;
+    width: var(--sidebar-width);
+    background-color: var(--primary-color);
     color: #fff;
-    flex-shrink: 0;
     display: flex;
     flex-direction: column;
+    position: fixed; /* Tetap di kiri */
+    height: 100vh;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    left: 0;
+    top: 0;
 }
 
 .sidebar-header {
-    padding: 30px;
+    padding: 25px;
     text-align: center;
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .sidebar-header h3 {
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
 .sidebar-menu {
     list-style: none;
     padding: 20px 0;
-    flex: 1;
+    margin: 0;
+    overflow-y: auto;
 }
 
 .sidebar-menu li a {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px 30px;
-    color: rgba(255,255,255,0.9);
+    gap: 15px;
+    padding: 15px 25px;
+    color: rgba(255,255,255,0.85);
     text-decoration: none;
+    transition: 0.3s;
     font-size: 0.95rem;
-    transition: all 0.2s ease;
 }
 
-.sidebar-menu li a:hover {
+.sidebar-menu li a:hover, .sidebar-menu li a.active {
     background-color: rgba(0,0,0,0.1);
     color: #fff;
-    padding-left: 35px; /* Efek geser sedikit saat hover */
+    border-left: 4px solid #fff;
 }
 
+/* KONTEN UTAMA */
 .main-content {
+    margin-left: var(--sidebar-width); /* Geser konten ke kanan selebar sidebar */
     flex: 1;
-    padding: 40px 60px;
+    padding: 30px;
+    width: calc(100% - var(--sidebar-width));
+    transition: all 0.3s ease;
 }
 
-.content-header {
-    margin-bottom: 50px; 
-    border-bottom: 1px solid #eee;
-    padding-bottom: 30px;
+/* TOMBOL BURGER (Default Sembunyi di Desktop) */
+.mobile-toggle {
+    display: none; 
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-.page-title {
-    font-size: 2.2rem; 
-    font-weight: 700;
-    color: #2E8B47; 
-    margin-bottom: 10px;
-    letter-spacing: -0.5px;
+/* OVERLAY GELAP (Untuk Mobile) */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 900;
 }
 
-.page-subtitle {
-    color: #555;
-    font-size: 1.05rem;
-    line-height: 1.6; 
-    max-width: 700px; 
+/* --- RESPONSIVE MOBILE (HP/Tablet) --- */
+@media screen and (max-width: 992px) {
+    .mobile-toggle {
+        display: block; /* Munculkan tombol burger */
+    }
+
+    .sidebar {
+        left: -100%; /* Sembunyikan sidebar ke kiri luar layar */
+        width: 260px;
+    }
+
+    .sidebar.active {
+        left: 0; /* Munculkan sidebar saat class active ditambahkan JS */
+        box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+    }
+
+    .main-content {
+        margin-left: 0; /* Konten jadi full width */
+        width: 100%;
+        padding: 20px;
+        padding-top: 80px; /* Beri jarak atas agar tidak ketutup tombol burger */
+    }
+    
+    .sidebar.active + .overlay {
+        display: block; /* Munculkan overlay saat menu terbuka */
+    }
 }
 
+/* STYLE TAMBAHAN DASHBOARD & TABEL */
+.content-header { margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 15px; }
+.simple-data-list { max-width: 100%; margin-top: 20px; }
+.data-row { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+.btn-theme-green { background: #2E8B47; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 14px; text-align: center; }
+.btn-theme-white { background: white; color: #2E8B47; border: 1px solid #2E8B47; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 14px; text-align: center; }
 
-.simple-data-list {
-    max-width: 800px;
-    background: transparent;
-}
-
-.data-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #FFFFFF;
-    padding: 25px 30px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02); 
-    border: 1px solid #EAEAEA;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.data-row:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    border-color: #2E8B47; 
-}
-
-.data-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.data-label {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
-}
-
-.data-desc {
-    font-size: 0.9rem;
-    color: #888;
-}
-
-.data-value {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #2E8B47;
-    line-height: 1;
+/* Responsive Grid untuk Tombol Aksi */
+@media screen and (max-width: 768px) {
+    .data-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .data-value { align-self: flex-end; }
+    .btn-theme-green, .btn-theme-white { width: 100%; margin-bottom: 10px; display: block; box-sizing: border-box; }
+    div[style*="display: flex; gap: 30px;"] { flex-direction: column; gap: 10px !important; }
 }

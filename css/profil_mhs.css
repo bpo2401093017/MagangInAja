@@ -1,0 +1,165 @@
+.profile-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #2E8B47 0%, #1e5c2e 100%);
+    padding: 40px;
+    color: white;
+    text-align: center;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.8);
+    object-fit: cover;
+    background: white;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.profile-nim {
+    opacity: 0.9;
+    margin: 5px 0 0;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+.profile-body {
+    padding: 30px;
+}
+
+.section-title {
+    font-size: 18px;
+    color: #2E8B47;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.data-item label {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+}
+
+.data-item div {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.btn-edit-profile {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #f4f7f6;
+    color: #333;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    transition: 0.3s;
+}
+
+.btn-edit-profile:hover {
+    background: #e0e0e0;
+}
+
+/* Upload Section */
+.upload-zone {
+    background: #f9fbf9;
+    border: 2px dashed #2E8B47;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.file-card:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    border-color: #2E8B47;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-icon {
+    font-size: 24px;
+    color: #e53935; /* PDF Red */
+}
+
+.file-name {
+    font-weight: 600;
+    color: #333;
+    display: block;
+}
+
+.file-type {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.btn-delete-file {
+    color: #c62828;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #ffebee;
+}

@@ -1,30 +1,65 @@
 <?php
-require_once '../config.php';
 require_once '../templates/header_perusahaan.php';
 
-// Contoh data dummy untuk statistik
-$total_perusahaan = 12; // Anda bisa ganti dengan query mysqli
+$id_user = $_SESSION['user_id'];
+$q_p = mysqli_query($conn, "SELECT id_perusahaan, nama_perusahaan FROM perusahaan WHERE id_user = '$id_user'");
+$d_p = mysqli_fetch_assoc($q_p);
+$id_perusahaan = $d_p['id_perusahaan'];
+
+$q_lowongan = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM lowongan WHERE id_perusahaan = '$id_perusahaan'"));
+$q_pelamar = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pengajuan WHERE id_perusahaan = '$id_perusahaan' AND status = 'pending'"));
+$q_aktif = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pengajuan WHERE id_perusahaan = '$id_perusahaan' AND status = 'diterima'"));
+$q_logbook = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM logbook WHERE id_perusahaan = '$id_perusahaan' AND status = 'pending'"));
 ?>
+<link rel="stylesheet" href="<?= $base_url; ?>css/dashboard_new.css">
 
-<main class="main-content">
-    <div class="content-header">
-        <h2 style="color: #2E8B47; font-size: 24px;">Selamat Datang, <?= ucfirst($_SESSION['username'] ?? 'Perusahaan'); ?>!</h2>
-        <p style="color: #666; margin-top: 5px;">Pantau status magang dan cari mitra industri terbaik di <strong>SIPADEKPNP</strong>.</p>
-    </div>
-
-    <div class="dashboard-cards" style="margin-top: 30px;">
-        <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <span style="display: block; color: #888; font-size: 14px;">Mitra Industri</span>
-                <span style="display: block; font-size: 12px; color: #aaa;">Perusahaan terdaftar aktif</span>
-            </div>
-            <div style="font-size: 32px; font-weight: bold; color: #2E8B47;"><?= $total_perusahaan; ?></div>
+<div class="main-content">
+    <div class="welcome-section">
+        <div class="welcome-text">
+            <h1>Halo, <?= htmlspecialchars($d_p['nama_perusahaan']); ?>!</h1>
+            <p>Selamat datang di panel manajemen magang. Berikut ringkasan aktivitas hari ini.</p>
         </div>
     </div>
 
-    <div style="margin-top: 40px; display: flex; gap: 15px;">
-        <a href="lowongan.php" style="background: #2E8B47; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600;">Cari Tempat Magang</a>
-        <a href="edit_profile.php" style="border: 2px solid #2E8B47; color: #2E8B47; padding: 10px 25px; border-radius: 8px; text-decoration: none; font-weight: 600;">Lengkapi Profile</a>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon icon-blue">💼</div>
+            <div class="stat-info">
+                <h3><?= $q_lowongan['total']; ?></h3>
+                <p>Lowongan Aktif</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon icon-orange">📄</div>
+            <div class="stat-info">
+                <h3><?= $q_pelamar['total']; ?></h3>
+                <p>Pelamar Baru</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon icon-green">👥</div>
+            <div class="stat-info">
+                <h3><?= $q_aktif['total']; ?></h3>
+                <p>Mahasiswa Magang</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon icon-red">📝</div>
+            <div class="stat-info">
+                <h3><?= $q_logbook['total']; ?></h3>
+                <p>Logbook Pending</p>
+            </div>
+        </div>
     </div>
 
-    
+    <div class="action-card">
+        <h3 style="color: #333;">Aksi Cepat</h3>
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+            <a href="../perusahaan/tambah_lowongan.php" class="btn-download" style="background: #2E8B47;">+ Pasang Lowongan</a>
+            <a href="../perusahaan/pengajuan_magang.php" class="btn-download" style="background: #ef6c00;">Cek Pelamar Masuk</a>
+            <a href="../perusahaan/monitoring_mahasiswa.php" class="btn-download" style="background: #1976d2;">Monitoring Mahasiswa</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

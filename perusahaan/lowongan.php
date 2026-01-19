@@ -1,83 +1,52 @@
 <?php
-require_once '../auth/auth_perusahaan.php';
 require_once '../templates/header_perusahaan.php';
 
-// Simulasi Data (Nantinya data ini diambil dari Database)
-$lowongan_dummy = [
-    [
-        'posisi' => 'Web Developer Intern',
-        'perusahaan' => 'PT. Teknologi Maju',
-        'lokasi' => 'Jakarta (Remote)',
-        'gaji' => 'Paid',
-        'logo' => 'https://ui-avatars.com/api/?name=TM&background=2E8B47&color=fff',
-        'tags' => ['PHP', 'MySQL', 'Bootstrap']
-    ],
-    [
-        'posisi' => 'UI/UX Designer',
-        'perusahaan' => 'Creative Studio',
-        'lokasi' => 'Bandung',
-        'gaji' => 'Paid',
-        'logo' => 'https://ui-avatars.com/api/?name=CS&background=FF7675&color=fff',
-        'tags' => ['Figma', 'Prototyping']
-    ],
-    [
-        'posisi' => 'Social Media Specialist',
-        'perusahaan' => 'Startup Hub',
-        'lokasi' => 'Surabaya',
-        'gaji' => 'Unpaid',
-        'logo' => 'https://ui-avatars.com/api/?name=SH&background=0984e3&color=fff',
-        'tags' => ['Copywriting', 'Canva']
-    ]
-];
+$id_user = $_SESSION['user_id'];
+$q_perusahaan = mysqli_query($conn, "SELECT id_perusahaan, foto FROM perusahaan WHERE id_user = '$id_user'");
+$data_perusahaan = mysqli_fetch_assoc($q_perusahaan);
+$id_perusahaan = $data_perusahaan['id_perusahaan'] ?? 0;
+$foto_perusahaan = $data_perusahaan['foto'] ?? 'default.png';
+
+$query = "SELECT * FROM lowongan WHERE id_perusahaan = '$id_perusahaan' ORDER BY created_at DESC";
+$result = mysqli_query($conn, $query);
 ?>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cari Lowongan Magang - MagangInAja</title>
-    <link rel="stylesheet" href="<?= $base_url; ?>css/lowongan.css">
+<link rel="stylesheet" href="<?= $base_url; ?>css/lowongan.css">
+
 <div class="main-content">
     <div class="content-header">
-        <h2>Cari Lowongan Magang</h2>
-        <p>Temukan kesempatan magang yang sesuai dengan minat dan bakatmu.</p>
+        <h2>Kelola Lowongan Magang</h2>
+        <p>Tambah, edit, atau hapus lowongan magang perusahaan Anda.</p>
     </div>
 
-    <div class="search-section">
-        <form action="" method="GET" class="search-container">
-            <input type="text" name="search" placeholder="Cari posisi atau perusahaan..." class="search-input">
-            <select name="lokasi" class="filter-select">
-                <option value="">Semua Lokasi</option>
-                <option value="jakarta">Jakarta</option>
-                <option value="remote">Remote</option>
-            </select>
-            <button type="submit" class="btn-search">Cari</button>
-        </form>
-    </div>
+    <a href="tambah_lowongan.php" class="btn-add">+ Tambah Lowongan Baru</a>
 
     <div class="job-grid">
-        <?php foreach ($lowongan_dummy as $job) : ?>
-            <div class="job-card">
-                <div class="card-header">
-                    <img src="<?= $job['logo']; ?>" alt="Logo" class="company-logo">
-                    <span class="badge-type"><?= $job['gaji']; ?></span>
-                </div>
-                <div class="card-body">
-                    <h3 class="job-title"><?= $job['posisi']; ?></h3>
-                    <p class="company-name"><?= $job['perusahaan']; ?></p>
-                    <p class="job-location">📍 <?= $job['lokasi']; ?></p>
-                    <div class="job-tags">
-                        <?php foreach ($job['tags'] as $tag) : ?>
-                            <span class="tag"><?= $tag; ?></span>
-                        <?php endforeach; ?>
+        <?php if (mysqli_num_rows($result) > 0): ?>
+            <?php while($row = mysqli_fetch_assoc($result)): ?>
+                <div class="job-card">
+                    <div class="card-header">
+                        <img src="<?= $base_url; ?>img/<?= $foto_perusahaan; ?>" onerror="this.src='https://ui-avatars.com/api/?name=Company'" alt="Logo" class="company-logo">
+                        <span class="badge-status status-<?= $row['status']; ?>"><?= $row['status']; ?></span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="job-title"><?= htmlspecialchars($row['judul_lowongan']); ?></h3>
+                        <p class="job-info">📅 <?= date('d M Y', strtotime($row['tanggal_mulai'])); ?> - <?= date('d M Y', strtotime($row['tanggal_selesai'])); ?></p>
+                        <p class="job-info">📍 <?= htmlspecialchars($row['lokasi']); ?></p>
+                        <p class="job-info">👤 Kuota: <?= $row['kuota']; ?> Orang</p>
+                        <div class="job-desc">
+                            <?= nl2br(htmlspecialchars(substr($row['persyaratan'], 0, 100))); ?>...
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="edit_lowongan.php?id=<?= $row['id_lowongan']; ?>" class="btn-edit">Edit</a>
+                        <a href="proses_lowongan.php?action=delete&id=<?= $row['id_lowongan']; ?>" class="btn-delete" onclick="return confirm('Hapus lowongan ini?')">Hapus</a>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <a href="#" class="btn-detail">Lihat Detail</a>
-                </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <p style="grid-column: 1/-1; text-align: center; color: #888;">Belum ada lowongan yang ditambahkan.</p>
+        <?php endif; ?>
     </div>
-
-    <footer class="footer">
-        &copy; 2024 MagangInAja - Platform Magang Mahasiswa
-    </footer>
 </div>
+</body>
+</html>
