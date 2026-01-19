@@ -27,6 +27,7 @@ SELECT
 FROM users u
 LEFT JOIN mahasiswa m ON m.id_user = u.id_user
 LEFT JOIN mahasiswa_berkas mb ON mb.id_user = u.id_user
+LEFT JOIN jurusan j ON m.id_jurusan = j.id_jurusan
 WHERE u.id_user = ?
 ";
 

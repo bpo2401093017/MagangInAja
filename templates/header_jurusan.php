@@ -37,7 +37,13 @@ $sudah_isi_data = mysqli_num_rows($cek_jrs) > 0;
                    class="<?= (basename($_SERVER['PHP_SELF']) == 'data_mahasiswa.php' || basename($_SERVER['PHP_SELF']) == 'form_data_mahasiswa.php') ? 'active' : ''; ?>">
                    Data Mahasiswa
                 </a>
-            </li>           
+            </li>          
+            <li>
+                <a href="<?= $base_url; ?>jurusan/register_prodi/data_prodi.php"
+                   class="<?= basename($_SERVER['PHP_SELF']) == 'data_prodi.php' ? 'active' : ''; ?>">
+                   Pengajuan Magang
+                </a>
+            </li> 
             <li>
                 <a href="<?= $base_url; ?>jurusan/lowongan.php"
                    class="<?= basename($_SERVER['PHP_SELF']) == 'lowongan.php' ? 'active' : ''; ?>">
@@ -48,6 +54,12 @@ $sudah_isi_data = mysqli_num_rows($cek_jrs) > 0;
                 <a href="<?= $base_url; ?>jurusan/register_prodi/data_prodi.php"
                    class="<?= basename($_SERVER['PHP_SELF']) == 'data_prodi.php' ? 'active' : ''; ?>">
                    Program Studi
+                </a>
+            </li>
+            <li>
+                <a href="<?= $base_url; ?>jurusan/register_prodi/data_prodi.php"
+                   class="<?= basename($_SERVER['PHP_SELF']) == 'data_prodi.php' ? 'active' : ''; ?>">
+                   Pengajuan Magang
                 </a>
             </li>
         </ul>

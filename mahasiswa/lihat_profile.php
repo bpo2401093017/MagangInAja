@@ -5,12 +5,11 @@ include_once '../auth/auth_mahasiswa.php';
 $id_user = $_SESSION['user_id'];
 
 // 2. Gunakan query yang kolomnya sesuai dengan tabel di database Anda
-$query = "SELECT username, email, no_hp,  foto FROM users WHERE id_user = '$id_user'";
-$Mquery = "SELECT nim, email, no_hp, nama_jurusan, nama_prodi FROM mahasiswa WHERE id_user = '$id_user'";
+$query = "SELECT u.username, u.email, u.no_hp, m.nim, u.foto, j.nama_jurusan, p.nama_prodi FROM users u JOIN mahasiswa m ON u.id_user = m.id_user JOIN jurusan j ON m.id_jurusan = j.id_jurusan JOIN prodi p ON m.id_prodi = p.id_prodi WHERE u.id_user = '$id_user'";
+
 $result = mysqli_query($conn, $query);
-$Mresult = mysqli_query($conn, $Mquery);
 $data = mysqli_fetch_assoc($result);
-$Mdata = mysqli_fetch_assoc($Mresult);
+
 
 // 3. Tambahkan proteksi jika data tidak ditemukan agar tidak error null
 if (!$data) {
@@ -51,7 +50,7 @@ if (!$data) {
 
         <div class="form-group">
             <label>NIM</label>
-            <input type="text" value="<?= $Mdata['nim']; ?>" class="readonly" readonly>
+            <input type="text" value="<?= $data['nim']; ?>" class="readonly" readonly>
         </div>
 
         <div class="form-group">
@@ -66,12 +65,12 @@ if (!$data) {
 
         <div class="form-group">
             <label>Jurusan</label>
-            <input type="text" value="<?= $Mdata['nama_jurusan']; ?>" class="readonly" readonly>
+            <input type="text" value="<?= $data['nama_jurusan']; ?>" class="readonly" readonly>
         </div>
 
         <div class="form-group">
             <label>Program Studi</label>
-            <input type="text" value="<?= $Mdata['nama_prodi']; ?>" class="readonly" readonly>
+            <input type="text" value="<?= $data['nama_prodi']; ?>" class="readonly" readonly>
         </div>
 
         <button type="submit" class="btn-save">Simpan Perubahan</button>
