@@ -1,7 +1,6 @@
 <?php
 require_once '../templates/header_jurusan.php';
 
-
 // --- LOGIKA QUERY DATA ---
 
 // 1. Ambil ID Jurusan dari Admin yang sedang login
