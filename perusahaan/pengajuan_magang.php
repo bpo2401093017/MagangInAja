@@ -108,7 +108,7 @@ $result = mysqli_query($conn, $query);
     <td style="padding: 15px; text-align: center;">
     <?php 
     // Kita buat agar tombol muncul jika statusnya 'menunggu_verifikasi' ATAU masih kosong
-    if ($status == 'menunggu_verifikasi' || empty($status) || $status == 'menunggu'): 
+    if ($status == 'menunggu_verifikasi' || empty($status) || $status == 'pending'): 
     ?>
         <div style="display: flex; gap: 5px; justify-content: center;">
             <a href="proses_seleksi.php?id=<?= $row['id_pengajuan']; ?>&aksi=terima" 

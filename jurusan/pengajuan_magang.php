@@ -11,7 +11,7 @@ $query = "SELECT p.*, m.nama_lengkap, m.nim, l.judul_lowongan, pr.nama_perusahaa
           JOIN mahasiswa m ON p.id_mahasiswa = m.id_mahasiswa
           JOIN users u ON m.id_user = u.id_user
           JOIN lowongan l ON p.id_lowongan = l.id_lowongan
-          JOIN perusahaan pr ON p.id_perusahaan = pr.id_perusahaan
+          JOIN perusahaan pr ON p.id_perusahaan  = pr.id_perusahaan
           WHERE m.id_jurusan = '$id_jurusan' AND p.status = 'menunggu_verifikasi'
           ORDER BY p.create_at ASC";
 $result = mysqli_query($conn, $query);
