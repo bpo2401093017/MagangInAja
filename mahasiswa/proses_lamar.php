@@ -50,7 +50,7 @@ $id_mahasiswa = $d_mhs['id_mahasiswa'];
 
     // 5. INSERT DATA KE DATABASE
     $query_insert = "INSERT INTO pengajuan (id_perusahaan, id_mahasiswa, nama_perusahaan, alamat_perusahaan, id_lowongan, create_at, status, jenis) 
-                     VALUES ('$id_perusahaan', '$id_mahasiswa', '$nama_perusahaan', '$alamat_perusahaan', '$id_lowongan', NOW(), 'pending', 'lowongan')";
+                     VALUES ('$id_perusahaan', '$id_mahasiswa', '$nama_perusahaan', '$alamat_perusahaan', '$id_lowongan', NOW(), 'menunggu_verifikasi')";
 
     if (mysqli_query($conn, $query_insert)) {
         // SUKSES

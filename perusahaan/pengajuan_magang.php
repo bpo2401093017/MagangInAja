@@ -105,24 +105,30 @@ $result = mysqli_query($conn, $query);
                                 </td>
 
                                 <td style="padding: 15px; text-align: center;">
-                                    <?php if ($status == 'menunggu_verifikasi'): ?>
-                                        <div style="display: flex; gap: 5px; justify-content: center;">
-                                            <a href="proses_seleksi.php?id=<?= $row['id_pengajuan']; ?>&aksi=terima" 
-                                               onclick="return confirm('Terima mahasiswa ini untuk magang?')"
-                                               style="background: #2E8B47; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 12px;">
-                                                <i class="fas fa-check"></i> Terima
-                                            </a>
-                                            
-                                            <a href="proses_seleksi.php?id=<?= $row['id_pengajuan']; ?>&aksi=tolak" 
-                                               onclick="return confirm('Tolak pengajuan ini?')"
-                                               style="background: #dc3545; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 12px;">
-                                                <i class="fas fa-times"></i> Tolak
-                                            </a>
-                                        </div>
-                                    <?php else: ?>
-                                        <span style="color: #999; font-size: 12px;">Selesai</span>
-                                    <?php endif; ?>
-                                </td>
+    <td style="padding: 15px; text-align: center;">
+    <?php 
+    // Kita buat agar tombol muncul jika statusnya 'menunggu_verifikasi' ATAU masih kosong
+    if ($status == 'menunggu_verifikasi' || empty($status) || $status == 'menunggu'): 
+    ?>
+        <div style="display: flex; gap: 5px; justify-content: center;">
+            <a href="proses_seleksi.php?id=<?= $row['id_pengajuan']; ?>&aksi=terima" 
+               onclick="return confirm('Terima mahasiswa ini?')"
+               style="background: #28a745; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 12px;">
+                <i class="fas fa-check"></i> Terima
+            </a>
+            
+            <a href="proses_seleksi.php?id=<?= $row['id_pengajuan']; ?>&aksi=tolak" 
+               onclick="return confirm('Tolak pengajuan ini?')"
+               style="background: #dc3545; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 12px;">
+                <i class="fas fa-times"></i> Tolak
+            </a>
+        </div>
+    <?php else: ?>
+        <span style="color: #666; font-size: 12px;">
+            <i class="fas fa-info-circle"></i> Selesai (<?= ucfirst($status); ?>)
+        </span>
+    <?php endif; ?>
+</td>
                             </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
