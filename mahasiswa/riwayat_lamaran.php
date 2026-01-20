@@ -45,7 +45,7 @@ $result = mysqli_query($conn, $query);
                         $bg_color = '#f8d7da'; // Merah
                         $text_color = '#721c24';
                     } elseif ($status_db == 'menunggu_verifikasi') {
-                        $status_label = 'Menunggu Verifikasi';
+                        $status_label = 'Menunggu Verifikasi Jurusan';
                     }
 
                     // Handle Judul Lowongan (Jika null berarti magang mandiri)
